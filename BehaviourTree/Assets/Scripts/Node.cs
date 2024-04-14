@@ -16,18 +16,13 @@ public class Node
     NodeStates state;
     Dictionary<string, object> data;
 
-    public Node()
-    {
-        children = null;
-    }
+    public Node() => children = null;
 
     public Node(params Node[] children)
     {
         this.children = new();
         foreach (Node child in children)
-        {
             AttachChild(child);
-        }
     }
 
     void AttachChild(Node child)
