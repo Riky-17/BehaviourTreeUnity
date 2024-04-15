@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Selector : Node
 {
+    public Selector() : base() {}
+    public Selector(params Node[] children) : base(children) {}
+
    public override NodeStates Evaluate()
     {
         if(children == null || children.Count == 0)

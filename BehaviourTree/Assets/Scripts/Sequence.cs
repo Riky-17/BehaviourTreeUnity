@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Sequence : Node
 {
+    public Sequence() : base() {}
+    public Sequence(params Node[] children) : base(children) {}
+
     public override NodeStates Evaluate()
     {
         if(children == null || children.Count == 0)

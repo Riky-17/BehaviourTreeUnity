@@ -13,7 +13,7 @@ public abstract class BehaviourTree : MonoBehaviour
 
     void SetUpTree()
     {
-        root = new();
+        root = new Selector();
     }
 
     void Update()

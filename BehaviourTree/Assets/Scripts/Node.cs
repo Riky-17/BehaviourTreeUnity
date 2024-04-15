@@ -45,7 +45,10 @@ public class Node
     public void ClearData(string key)
     {
         if (data.ContainsKey(key))
+        {
             data.Remove(key);
+            return;
+        }
 
         parent?.ClearData(key);
     }
