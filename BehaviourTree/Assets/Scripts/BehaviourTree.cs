@@ -4,20 +4,11 @@ using UnityEngine;
 
 public abstract class BehaviourTree : MonoBehaviour
 {
-    Node root = null;
+    protected Node root = null;
 
-    void Awake()
-    {
-        SetUpTree();
-    }
+    void Awake() => SetUpTree();
 
-    void SetUpTree()
-    {
-        root = new Selector();
-    }
+    void Update() => root?.Evaluate();
 
-    void Update()
-    {
-        root?.Evaluate();
-    }
+    public abstract void SetUpTree();
 }
