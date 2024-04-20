@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyPatrolling : Node
+public class EnemyPatrolling : Leaf
 {
+    
     Transform transform;
     List<Vector3> wayPoints;
-    float speed = 6;
+    int speed;
     int index = 0;
 
     public EnemyPatrolling(Transform transform, List<Vector3> wayPoints)
@@ -16,7 +17,8 @@ public class EnemyPatrolling : Node
     }
 
     public override NodeStates Evaluate()
-    {
+    {   
+        speed = GetData<int>(nameof(speed));
         Vector3 tfToPoint = wayPoints[index] - transform.position;
         if(tfToPoint.magnitude <= .5f)
         {

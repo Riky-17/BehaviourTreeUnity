@@ -11,10 +11,8 @@ public enum NodeStates
 
 public class Node
 {
-    Node parent;
+    public Node Parent { get; private set; }
     protected List<Node> children;
-    NodeStates state;
-    Dictionary<string, object> data;
 
     public Node() => children = null;
 
@@ -25,35 +23,11 @@ public class Node
             AttachChild(child);
     }
 
-    void AttachChild(Node child)
+    protected void AttachChild(Node child)
     {
-        child.parent = this;
+        child.Parent = this;
         children.Add(child);
     }
-
-    public object GetData(string key)
-    {
-        if (data.TryGetValue(key, out object value))
-            return value;
-
-        if(parent != null)
-            return parent.GetData(key);
-        else
-            return null;
-    }
-
-    public void ClearData(string key)
-    {
-        if (data.ContainsKey(key))
-        {
-            data.Remove(key);
-            return;
-        }
-
-        parent?.ClearData(key);
-    }
-
-    public void SetData(string key, object value) => data[key] = value;
 
     public virtual NodeStates Evaluate() => NodeStates.Failure;
 }

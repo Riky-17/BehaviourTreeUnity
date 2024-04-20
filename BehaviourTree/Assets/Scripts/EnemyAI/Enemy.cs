@@ -8,9 +8,14 @@ public class Enemy : BehaviourTree
 
     public override void SetUpTree()
     {
-        root = new Selector
+        root = new DataNode<int>
         (
-            new EnemyPatrolling(transform, wayPoints)
+            new string[] {"speed"},
+            new int[] {6},
+            new Selector
+            (
+                new EnemyPatrolling(transform, wayPoints)
+            )
         );
     }
 
