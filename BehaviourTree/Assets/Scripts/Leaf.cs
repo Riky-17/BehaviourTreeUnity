@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Leaf : Node 
+public abstract class Leaf : Node 
 {
     public Leaf() : base() {}
 

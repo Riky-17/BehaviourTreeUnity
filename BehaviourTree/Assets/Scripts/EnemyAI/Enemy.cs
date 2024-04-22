@@ -14,9 +14,24 @@ public class Enemy : BehaviourTree
             new int[] {6},
             new Selector
             (
+                new DataNode<Transform>
+                (
+                    new string[] {"target"},
+                    new Transform[] {null},
+                    new Sequence
+                    (
+                        new LookForPlayer(transform),
+                        new ChasePlayer(transform)
+                    )
+                ),
                 new EnemyPatrolling(transform, wayPoints)
             )
         );
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, 8);
     }
 
 }
