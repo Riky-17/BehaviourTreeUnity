@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BehaviourTree;
 
-public class Enemy : BehaviourTree
+public class Enemy : MonoBehaviourTree
 {
     [SerializeField] List<Vector3> wayPoints;
 
@@ -28,10 +29,4 @@ public class Enemy : BehaviourTree
             )
         );
     }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position, 8);
-    }
-
 }
