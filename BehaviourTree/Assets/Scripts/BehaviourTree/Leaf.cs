@@ -10,7 +10,7 @@ namespace BehaviourTree
 
         protected T GetData<T>(string key)
         {
-            Node node = Parent;
+            Node node = parent;
 
             while (true)
             {
@@ -24,19 +24,19 @@ namespace BehaviourTree
                     if (dataNode.TryGetData(key, out T value))
                         return value;
                     
-                    node = node.Parent;
+                    node = node.parent;
                     continue;
 
                 }
 
-                node = node.Parent;
+                node = node.parent;
                 continue;
             }
         }
 
         protected void SetData<T>(string key, T value)
         {
-            Node node = Parent;
+            Node node = parent;
 
             while (true)
             {
@@ -50,11 +50,11 @@ namespace BehaviourTree
                     if (dataNode.SearchKey(key))
                         dataNode.SetData(key, value);
                     
-                    node = node.Parent;
+                    node = node.parent;
                     continue;
                 }
 
-                node = node.Parent;
+                node = node.parent;
                 continue;
             }
         }

@@ -4,21 +4,18 @@ using UnityEngine;
 
 namespace BehaviourTree
 {
-    public class DataNode<T> : Node
+    public class DataNode<T> : ParentNode
     {
         Dictionary<string, T> data;
 
-        public DataNode(string[] keys, T[] values, Node child)
+        public DataNode(string[] keys, T[] values, Node child) : base(child)
         {
-            children = new();
             data = new();
             for (int i = 0; i < keys.Length; i++)
                 SetData(keys[i], values[i]);
-
-            AttachChild(child);
         }
 
-        public override NodeStates Evaluate() => children[0].Evaluate();
+        public override NodeStates Evaluate() => Children[0].Evaluate();
 
         public bool TryGetData(string key, out T value)
         {

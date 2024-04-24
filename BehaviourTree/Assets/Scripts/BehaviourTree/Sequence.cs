@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace BehaviourTree
 {
-    public class Sequence : Node
+    public class Sequence : ParentNode
     {
-        public Sequence() : base() {}
+        public Sequence(Node child) : base(child) {}
         public Sequence(params Node[] children) : base(children) {}
 
         public override NodeStates Evaluate()
         {
-            if(children == null || children.Count == 0)
+            if(Children == null || Children.Count == 0)
                 return NodeStates.Failure;
 
-            foreach (Node child in children)
+            foreach (Node child in Children)
             {
                 switch(child.Evaluate())
                 {

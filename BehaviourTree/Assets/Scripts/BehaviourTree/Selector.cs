@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace BehaviourTree
 {
-    public class Selector : Node
+    public class Selector : ParentNode
     {
-        public Selector() : base() {}
+        public Selector(Node child) : base(child) {}
         public Selector(params Node[] children) : base(children) {}
 
-    public override NodeStates Evaluate()
+        public override NodeStates Evaluate()
         {
-            if(children == null || children.Count == 0)
+            if(Children == null || Children.Count == 0)
                 return NodeStates.Failure;
 
-            foreach (Node child in children)
+            foreach (Node child in Children)
             {
                 switch(child.Evaluate())
                 {
