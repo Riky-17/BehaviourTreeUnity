@@ -8,9 +8,17 @@ namespace BehaviourTree
     {
         protected Node root = null;
 
-        void Awake() => SetUpTree();
+        void Awake()
+        {
+            SetUpTree();
+            root?.ChildAwake();
+        }
 
-        void Update() => root?.Evaluate();
+        void Start() => root?.ChildStart();
+        void OnEnable() => root?.ChildEnable();
+        void OnDisable() => root?.ChildDisable();
+
+        void Update() => root?.ChildUpdate();
 
         public abstract void SetUpTree();
     }

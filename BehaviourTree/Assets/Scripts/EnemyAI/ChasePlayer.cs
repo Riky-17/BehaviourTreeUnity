@@ -12,7 +12,9 @@ public class ChasePlayer : Leaf
 
     public ChasePlayer(Transform transform) => this.transform = transform;
 
-    public override NodeStates Evaluate()
+    public override void ChildStart() => speed = GetData<int>(nameof(speed));
+
+    public override NodeStates ChildUpdate()
     {
         target = GetData<Transform>(nameof(target));
         Vector3 posToTarget = target.position - transform.position;
@@ -20,7 +22,6 @@ public class ChasePlayer : Leaf
         if(posToTarget.magnitude <= minDist)
             return NodeStates.Success;
 
-        speed = GetData<int>(nameof(speed));
         Vector3 dir = posToTarget.normalized;
         transform.position += speed * Time.deltaTime * dir;
 

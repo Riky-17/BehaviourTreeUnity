@@ -17,9 +17,10 @@ public class EnemyPatrolling : Leaf
         this.wayPoints = wayPoints;
     }
 
-    public override NodeStates Evaluate()
-    {   
-        speed = GetData<int>(nameof(speed));
+    public override void ChildStart() => speed = GetData<int>(nameof(speed));
+
+    public override NodeStates ChildUpdate()
+    {
         Vector3 tfToPoint = wayPoints[index] - transform.position;
         if(tfToPoint.magnitude <= .5f)
         {

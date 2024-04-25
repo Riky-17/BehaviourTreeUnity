@@ -9,14 +9,14 @@ namespace BehaviourTree
         public Sequence(Node child) : base(child) {}
         public Sequence(params Node[] children) : base(children) {}
 
-        public override NodeStates Evaluate()
+        public override NodeStates ChildUpdate()
         {
             if(Children == null || Children.Count == 0)
                 return NodeStates.Failure;
 
             foreach (Node child in Children)
             {
-                switch(child.Evaluate())
+                switch(child.ChildUpdate())
                 {
                     case NodeStates.Failure:
                         return NodeStates.Failure;

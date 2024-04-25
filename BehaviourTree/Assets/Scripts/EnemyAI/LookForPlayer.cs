@@ -12,7 +12,7 @@ public class LookForPlayer : Leaf
 
     public LookForPlayer(Transform transform) => this.transform = transform;
 
-    public override NodeStates Evaluate()
+    public override NodeStates ChildUpdate()
     {
         colliders = Physics.OverlapSphere(transform.position, radius);
         if (colliders.Length > 0)

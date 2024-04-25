@@ -15,7 +15,7 @@ namespace BehaviourTree
                 SetData(keys[i], values[i]);
         }
 
-        public override NodeStates Evaluate() => Children[0].Evaluate();
+        public override NodeStates ChildUpdate() => Children[0].ChildUpdate();
 
         public bool TryGetData(string key, out T value)
         {
