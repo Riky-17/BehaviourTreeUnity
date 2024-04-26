@@ -8,7 +8,7 @@ public class EnemyPatrolling : Leaf
     
     Transform transform;
     List<Vector3> wayPoints;
-    int speed;
+    float speed;
     int index = 0;
 
     public EnemyPatrolling(Transform transform, List<Vector3> wayPoints)
@@ -17,10 +17,13 @@ public class EnemyPatrolling : Leaf
         this.wayPoints = wayPoints;
     }
 
-    public override void ChildStart() => speed = GetData<int>(nameof(speed));
+    public override void ChildStart() => speed = GetData<float>(nameof(speed), OnSpeedChange);
 
     public override NodeStates ChildUpdate()
     {
+        if(Input.GetKeyDown(KeyCode.Space))
+            SetData<float>(nameof(speed), 20);
+
         Vector3 tfToPoint = wayPoints[index] - transform.position;
         if(tfToPoint.magnitude <= .5f)
         {
@@ -31,4 +34,6 @@ public class EnemyPatrolling : Leaf
 
         return NodeStates.Running;
     }
+
+    void OnSpeedChange() => speed = GetData<float>(nameof(speed));
 }

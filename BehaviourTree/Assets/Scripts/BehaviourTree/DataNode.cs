@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,8 @@ namespace BehaviourTree
 {
     public class DataNode<T> : ParentNode
     {
-        Dictionary<string, T> data;
+        readonly Dictionary<string, T> data;
+        event Action Callback;
 
         public DataNode(string[] keys, T[] values, Node child) : base(child)
         {
@@ -29,7 +31,25 @@ namespace BehaviourTree
             return false;
         }
 
+        public bool TryGetData(Action action, string key, out T value)
+        {
+            if (data.ContainsKey(key))
+            {
+                Callback += action;
+                value = data[key];
+                return true;
+            }
+
+            value = default;
+            return false;
+        }
+
+        public void SetData(string key, T value)
+        {
+            data[key] = value;
+            Callback?.Invoke();
+        }
+        
         public bool SearchKey(string key) => data.ContainsKey(key);
-        public void SetData(string key, T value) => data[key] = value;
     }
 }

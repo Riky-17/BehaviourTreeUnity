@@ -9,10 +9,10 @@ public class Enemy : MonoBehaviourTree
 
     public override void SetUpTree()
     {
-        root = new DataNode<int>
+        root = new DataNode<float>
         (
             new string[] {"speed"},
-            new int[] {6},
+            new float[] {6},
             new Selector
             (
                 new DataNode<Transform>

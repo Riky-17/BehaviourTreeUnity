@@ -8,11 +8,11 @@ public class ChasePlayer : Leaf
     Transform transform;
     Transform target;
     float minDist = 1f;
-    int speed;
+    float speed;
 
     public ChasePlayer(Transform transform) => this.transform = transform;
 
-    public override void ChildStart() => speed = GetData<int>(nameof(speed));
+    public override void ChildStart() => speed = GetData<float>(nameof(speed), OnSpeedChange);
 
     public override NodeStates ChildUpdate()
     {
@@ -27,4 +27,6 @@ public class ChasePlayer : Leaf
 
         return NodeStates.Running;
     }
+
+    void OnSpeedChange() => speed = GetData<float>(nameof(speed));
 }
