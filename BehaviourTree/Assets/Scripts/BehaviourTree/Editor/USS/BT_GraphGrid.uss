@@ -1,0 +1,10 @@
+BT_GraphView
+{
+    flex-grow: 1;
+}
+#Grid
+{
+    --spacing: 15;
+    --grid-background-color: rgb(35, 35, 35);
+    --line-color: rgb(48, 48, 48);
+}

@@ -5,14 +5,14 @@ using UnityEditor;
 
 namespace BehaviourTree.Editor
 {
-    [CustomEditor(typeof(MonoBehaviourTree), true, isFallback = false)]
-    public class BehaviourTreeEditor : UnityEditor.Editor
+    [CustomEditor(typeof(MonoBehaviourTree), true)]
+    public class BT_Editor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
             if(GUILayout.Button("Open Graph"))
-                BehaviourTreeWindow.OpenWindow((MonoBehaviourTree)target);
+                BT_Window.OpenWindow((MonoBehaviourTree)target);
         }
     }
 }

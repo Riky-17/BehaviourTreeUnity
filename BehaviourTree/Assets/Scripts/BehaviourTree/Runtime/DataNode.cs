@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace BehaviourTree
 {
+    [NodeInfo]
     public class DataNode<T> : ParentNode
     {
         readonly Dictionary<string, T> data;

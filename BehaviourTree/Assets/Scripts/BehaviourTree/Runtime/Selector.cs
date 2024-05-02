@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace BehaviourTree
 {
+    [NodeInfo]
     public class Selector : ParentNode
     {
         public Selector(Node child) : base(child) {}

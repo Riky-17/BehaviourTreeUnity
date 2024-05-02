@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace BehaviourTree
 {
+    [NodeInfo]
     public class Sequence : ParentNode
     {
         public Sequence(Node child) : base(child) {}
