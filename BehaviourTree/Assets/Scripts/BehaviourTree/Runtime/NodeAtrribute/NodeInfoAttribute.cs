@@ -7,6 +7,8 @@ namespace BehaviourTree
 {
     public class NodeInfoAttribute : Attribute
     {
-        
+        public string Path {get; private set;}
+
+        public NodeInfoAttribute(string path) => Path = path;
     }
 }

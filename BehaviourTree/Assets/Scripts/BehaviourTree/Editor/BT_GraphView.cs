@@ -37,11 +37,20 @@ namespace BehaviourTree.Editor
                 name = "Grid"
             };
             Add(background); 
+            background.SendToBack();
 
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
             this.AddManipulator(new ClickSelector());
+
+            LoadNodes();
+        }
+
+        private void LoadNodes()
+        {
+            foreach (BehaviourTreeNode node in behaviourTree.Children)
+                AddNodeToGraph(node);
         }
 
         public void Add(BehaviourTreeNode node)
@@ -54,7 +63,7 @@ namespace BehaviourTree.Editor
 
         void AddNodeToGraph(BehaviourTreeNode node)
         {
-            BT_EditorNode editorNode = new();
+            BT_EditorNode editorNode = new(node);
             editorNode.SetPosition(node.Position);
             AddElement(editorNode);
             GraphNodes.Add(editorNode);
