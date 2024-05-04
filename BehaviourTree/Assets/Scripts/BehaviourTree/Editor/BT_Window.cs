@@ -38,7 +38,7 @@ namespace BehaviourTree.Editor
         void DrawGraph()
         {
             serializedObject = new(behaviourTree);
-            graphView = new(serializedObject);
+            graphView = new(serializedObject, this);
             rootVisualElement.Add(graphView);
         }
     }

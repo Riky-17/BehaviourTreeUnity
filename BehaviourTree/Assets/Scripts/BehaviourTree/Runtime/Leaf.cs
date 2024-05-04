@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace BehaviourTree
 {
-    public abstract class Leaf : Node 
+    public abstract class Leaf : BehaviourTreeNode 
     {
         public Leaf() : base() {}
 
         protected T GetData<T>(string key)
         {
-            Node node = parent;
+            BehaviourTreeNode node = parent;
 
             while (true)
             {
@@ -37,7 +37,7 @@ namespace BehaviourTree
 
         protected T GetData<T>(string key, Action action)
         {
-            Node node = parent;
+            BehaviourTreeNode node = parent;
 
             while (true)
             {
@@ -63,7 +63,7 @@ namespace BehaviourTree
 
         protected void SetData<T>(string key, T value)
         {
-            Node node = parent;
+            BehaviourTreeNode node = parent;
 
             while (true)
             {

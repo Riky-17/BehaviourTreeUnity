@@ -21,11 +21,10 @@ namespace BehaviourTree.Editor
             {
                 new SearchTreeGroupEntry(new GUIContent("Nodes"))
             };
-            // List<string> nodeTitles = new();
+            List<EntryData> entryData = new();
 
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
             
-
             foreach (Assembly assembly in assemblies)
             {
                 foreach (Type type in assembly.GetTypes())
@@ -35,22 +34,46 @@ namespace BehaviourTree.Editor
                         var attribute = type.GetCustomAttribute(typeof(NodeInfoAttribute));
                         if(attribute != null)
                         {
-                            SearchTreeEntry entry = new(new(type.Name));
-                            entry.level = 1;
+                            var node = Activator.CreateInstance(type);
+                            SearchTreeEntry entry = new(new(type.Name))
+                            {
+                                level = 1,
+                                userData = new EntryData(type.Name, node)
+                            };
                             tree.Add(entry);
-                            // nodeTitles.Add(type.Name);
-                            // NodeInfoAttribute att = (NodeInfoAttribute)attribute;
-                            // var node = Activator.CreateInstance(type);
+                            entryData.Add(new(type.Name, node));
                         }
                     }
                 }
             }
+
+
             return tree;
         }
 
         public bool OnSelectEntry(SearchTreeEntry SearchTreeEntry, SearchWindowContext context)
         {
+            var windowMousePosition = graphView.ChangeCoordinatesTo(graphView, context.screenMousePosition - graphView.Window.position.position);
+            var graphMousePosition = graphView.contentViewContainer.WorldToLocal(windowMousePosition);
+
+            EntryData data = (EntryData)SearchTreeEntry.userData;
+            BehaviourTreeNode node = (BehaviourTreeNode)data.Data;
+            node.SetPosition(new(graphMousePosition, new()));
+            graphView.Add(node);
+            
             return true;
+        }
+    }
+
+    public struct EntryData
+    {
+        public string Title {get; private set;}
+        public object Data {get; private set;}
+
+        public EntryData(string title, object data)
+        {
+            Title = title;
+            Data = data;
         }
     }
 }

@@ -7,15 +7,16 @@ namespace BehaviourTree
     [NodeInfo]
     public class Selector : ParentNode
     {
-        public Selector(Node child) : base(child) {}
-        public Selector(params Node[] children) : base(children) {}
+        public Selector() {}
+        public Selector(BehaviourTreeNode child) : base(child) {}
+        public Selector(params BehaviourTreeNode[] children) : base(children) {}
 
         public override NodeStates ChildUpdate()
         {
             if(Children == null || Children.Count == 0)
                 return NodeStates.Failure;
 
-            foreach (Node child in Children)
+            foreach (BehaviourTreeNode child in Children)
             {
                 switch(child.ChildUpdate())
                 {

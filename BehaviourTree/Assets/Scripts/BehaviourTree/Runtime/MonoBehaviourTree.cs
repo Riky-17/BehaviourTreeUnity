@@ -6,7 +6,8 @@ namespace BehaviourTree
 {
     public abstract class MonoBehaviourTree : MonoBehaviour
     {
-        protected Node root = null;
+        protected BehaviourTreeNode root = null;
+        public List<BehaviourTreeNode> Children {get; protected set;} = new();
 
         void Awake()
         {

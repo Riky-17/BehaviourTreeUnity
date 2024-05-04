@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace BehaviourTree
 {
-    [NodeInfo]
+    // [NodeInfo]
     public class DataNode<T> : ParentNode
     {
         readonly Dictionary<string, T> data;
         event Action Callback;
 
-        public DataNode(string[] keys, T[] values, Node child) : base(child)
+        public DataNode(string[] keys, T[] values, BehaviourTreeNode child) : base(child)
         {
             data = new();
             for (int i = 0; i < keys.Length; i++)

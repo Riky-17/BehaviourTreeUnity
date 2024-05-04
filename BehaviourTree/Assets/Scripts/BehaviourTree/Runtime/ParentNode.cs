@@ -4,24 +4,24 @@ using UnityEngine;
 
 namespace BehaviourTree
 {
-    public abstract class ParentNode : Node
+    public abstract class ParentNode : BehaviourTreeNode
     {
-        protected List<Node> Children {get; private set;}
+        protected List<BehaviourTreeNode> Children {get; private set;}
 
-        public ParentNode(Node child)
+        public ParentNode(BehaviourTreeNode child)
         {
             Children = new();
             AttachChild(child);
         }
 
-        public ParentNode(params Node[] children)
+        public ParentNode(params BehaviourTreeNode[] children)
         {
             Children = new();
-            foreach (Node child in children)
+            foreach (BehaviourTreeNode child in children)
                 AttachChild(child);
         }
         
-        void AttachChild(Node child)
+        void AttachChild(BehaviourTreeNode child)
         {
             child.parent = this;
             Children.Add(child);
@@ -29,25 +29,25 @@ namespace BehaviourTree
 
         public override void ChildAwake()
         {
-            foreach (Node child in Children)
+            foreach (BehaviourTreeNode child in Children)
                 child.ChildAwake();
         }
 
         public override void ChildStart()
         {
-            foreach (Node child in Children)
+            foreach (BehaviourTreeNode child in Children)
                 child.ChildStart();
         }
 
         public override void ChildEnable()
         {
-            foreach (Node child in Children)
+            foreach (BehaviourTreeNode child in Children)
                 child.ChildEnable();
         }
 
         public override void ChildDisable()
         {
-            foreach (Node child in Children)
+            foreach (BehaviourTreeNode child in Children)
                 child.ChildDisable();
         }
     }
