@@ -9,11 +9,11 @@ namespace BehaviourTree.Editor
 {
     public class BT_EditorNode : Node
     {
-        BehaviourTreeNode node;
+        BehaviourTreeNode Node {get; set;}
 
         public BT_EditorNode(BehaviourTreeNode node)
         {
-            this.node = node;
+            Node = node;
             AddToClassList("behaviour-tree-node");
 
             Type type = node.GetType();

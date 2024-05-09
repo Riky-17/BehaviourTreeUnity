@@ -29,6 +29,14 @@ namespace BehaviourTree.Editor
             btWindow.Load(behaviourTree);
         }
 
+        void OnEnable()
+        {
+            if(behaviourTree != null)
+            {
+                DrawGraph();
+            }
+        }
+
         void Load(MonoBehaviourTree behaviourTree)
         {
             this.behaviourTree = behaviourTree;

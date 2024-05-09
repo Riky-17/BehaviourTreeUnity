@@ -12,6 +12,7 @@ namespace BehaviourTree
         Running
     }
 
+    [Serializable]
     public abstract class BehaviourTreeNode
     {
         public BehaviourTreeNode parent;
