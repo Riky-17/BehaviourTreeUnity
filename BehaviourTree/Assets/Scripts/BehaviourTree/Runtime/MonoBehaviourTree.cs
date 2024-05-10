@@ -8,7 +8,7 @@ namespace BehaviourTree
     {
         protected BehaviourTreeNode root = null;
         [HideInInspector] [SerializeReference] private List<BehaviourTreeNode> children = new();
-        [HideInInspector] public List<BehaviourTreeNode> Children => children;
+        public List<BehaviourTreeNode> Children => children;
 
         void Awake()
         {

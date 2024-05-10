@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -45,6 +46,36 @@ namespace BehaviourTree.Editor
             this.AddManipulator(new ClickSelector());
 
             LoadNodes();
+
+            graphViewChanged += OnGraphViewChanged;
+        }
+
+        private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
+        {
+            if (graphViewChange.movedElements != null)
+            {
+                Undo.RecordObject(serializedObject.targetObject, "Moved Nodes");
+                foreach (BT_EditorNode node in graphViewChange.movedElements.OfType<BT_EditorNode>())
+                    node.SavePosition();
+            }
+
+            if (graphViewChange.elementsToRemove != null)
+            {
+                Undo.RecordObject(serializedObject.targetObject, "Removed Nodes");
+                List<BT_EditorNode> nodes = graphViewChange.elementsToRemove.OfType<BT_EditorNode>().ToList();
+                for (int i = nodes.Count - 1; i >= 0; i--)
+                    RemoveNode(nodes[i]);
+            }
+
+            return graphViewChange;
+        }
+
+        private void RemoveNode(BT_EditorNode node)
+        {
+            behaviourTree.Children.Remove(node.Node);
+            GraphNodes.Remove(node);
+            GraphNodesDictionary.Remove(node.Node.Id);
+            serializedObject.Update();
         }
 
         private void LoadNodes()

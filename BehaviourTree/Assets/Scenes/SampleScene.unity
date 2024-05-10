@@ -348,12 +348,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e283f876d8b5b40b531353ead8bf0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  children: []
   wayPoints:
   - {x: 10, y: 0, z: 10}
   - {x: 15, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: -10, y: 0, z: -15}
   - {x: 0, y: 0, z: 10}
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &669736583
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,6 +693,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f42d7dd4e21b2c54398668099bf672e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  children:
+  - rid: 6800022246931824640
+  - rid: 6800022246931824641
+  references:
+    version: 2
+    RefIds:
+    - rid: 6800022246931824640
+      type: {class: Selector, ns: BehaviourTree, asm: BehaviourTree}
+      data:
+        position:
+          serializedVersion: 2
+          x: 384
+          y: 181.99998
+          width: 0
+          height: 0
+    - rid: 6800022246931824641
+      type: {class: Sequence, ns: BehaviourTree, asm: BehaviourTree}
+      data:
+        position:
+          serializedVersion: 2
+          x: 188.8
+          y: 44.8
+          width: 103.999985
+          height: 52.800003
 --- !u!4 &992698004
 Transform:
   m_ObjectHideFlags: 0
@@ -736,10 +764,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e283f876d8b5b40b531353ead8bf0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  children: []
   wayPoints:
   - {x: 7, y: 0, z: 5}
   - {x: 0, y: 0, z: 0}
   - {x: -3, y: 0, z: -10}
+  references:
+    version: 2
+    RefIds: []
 --- !u!136 &2093674434
 CapsuleCollider:
   m_ObjectHideFlags: 0

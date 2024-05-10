@@ -9,7 +9,7 @@ namespace BehaviourTree.Editor
 {
     public class BT_EditorNode : Node
     {
-        BehaviourTreeNode Node {get; set;}
+        public BehaviourTreeNode Node {get; private set;}
 
         public BT_EditorNode(BehaviourTreeNode node)
         {
@@ -27,5 +27,7 @@ namespace BehaviourTree.Editor
 
             name = type.Name;
         }
+
+        public void SavePosition() => Node.SetPosition(GetPosition());
     }
 }

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
+using System;
 
 namespace BehaviourTree.Editor
 {
@@ -9,6 +11,7 @@ namespace BehaviourTree.Editor
     {
         MonoBehaviourTree behaviourTree;
         SerializedObject serializedObject;
+        BT_Window window;
         BT_GraphView graphView;
 
         public static void OpenWindow(MonoBehaviourTree behaviourTree)
@@ -31,9 +34,22 @@ namespace BehaviourTree.Editor
 
         void OnEnable()
         {
+            Undo.undoRedoPerformed += OnUndoRedoPerformed;
+
+            if(behaviourTree != null)
+                DrawGraph();
+        }
+
+        void OnDisable() => Undo.undoRedoPerformed -= OnUndoRedoPerformed;
+
+        void OnGUI()
+        {
             if(behaviourTree != null)
             {
-                DrawGraph();
+                if(EditorUtility.IsDirty(behaviourTree))
+                    hasUnsavedChanges = true;
+                else
+                    hasUnsavedChanges = false;
             }
         }
 
@@ -47,7 +63,20 @@ namespace BehaviourTree.Editor
         {
             serializedObject = new(behaviourTree);
             graphView = new(serializedObject, this);
+            graphView.graphViewChanged += OnGraphViewChanged;
             rootVisualElement.Add(graphView);
+        }
+
+        private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
+        {
+            EditorUtility.SetDirty(behaviourTree);
+            return graphViewChange;
+        }
+
+        private void OnUndoRedoPerformed()
+        {
+            rootVisualElement.Remove(graphView);
+            DrawGraph();
         }
     }
 }

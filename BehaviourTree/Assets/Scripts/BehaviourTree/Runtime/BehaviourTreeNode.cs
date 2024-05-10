@@ -25,12 +25,14 @@ namespace BehaviourTree
 
         //graph methods and fields
 
-        public Rect Position {get; private set;}
+        [SerializeField] Rect position;
+
+        public Rect Position => position;
         public string Id {get; private set;}
 
         public BehaviourTreeNode() => NewGuid();
 
-        public void SetPosition(Rect rect) => Position = rect;
+        public void SetPosition(Rect rect) => position = rect;
         public void NewGuid() => Id = Guid.NewGuid().ToString();
     }
 }
