@@ -70,6 +70,29 @@ namespace BehaviourTree.Editor
             return graphViewChange;
         }
 
+        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+        {
+            List<Port> allPorts = new();
+            List<Port> ports = new();
+
+            foreach (BT_EditorNode node in GraphNodes)
+                allPorts.AddRange(node.Ports);
+
+            foreach (Port port in allPorts)
+            {
+                if(port == startPort)
+                    continue;
+                if(port.node == startPort.node)
+                    continue;
+                if(port.direction == startPort.direction)
+                    continue;
+                if(port.portType == startPort.portType)
+                    ports.Add(port);
+            }
+
+            return ports;
+        }
+
         private void RemoveNode(BT_EditorNode node)
         {
             behaviourTree.Children.Remove(node.Node);
