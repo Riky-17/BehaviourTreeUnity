@@ -7,7 +7,7 @@ namespace BehaviourTree
     public abstract class MonoBehaviourTree : MonoBehaviour
     {
         protected BehaviourTreeNode root = null;
-        [HideInInspector] [SerializeReference] private List<BehaviourTreeNode> children = new();
+        [HideInInspector] [SerializeReference] List<BehaviourTreeNode> children = new();
         public List<BehaviourTreeNode> Children => children;
 
         void Awake()

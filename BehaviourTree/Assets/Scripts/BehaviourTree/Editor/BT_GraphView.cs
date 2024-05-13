@@ -56,7 +56,7 @@ namespace BehaviourTree.Editor
             {
                 Undo.RecordObject(serializedObject.targetObject, "Moved Nodes");
                 foreach (BT_EditorNode node in graphViewChange.movedElements.OfType<BT_EditorNode>())
-                    node.SavePosition();
+                    node.SetPosition();
             }
 
             if (graphViewChange.elementsToRemove != null)
@@ -128,6 +128,20 @@ namespace BehaviourTree.Editor
         {
             windowSearch.target = (VisualElement)focusController.focusedElement;
             SearchWindow.Open(new SearchWindowContext(obj.screenMousePosition), windowSearch);
+        }
+
+        public void RefreshGraph()
+        {
+            foreach (BT_EditorNode editorNode in GraphNodes)
+            {
+                editorNode.SetPosition(editorNode.Node.Position);
+                RemoveElement(editorNode);
+            }
+
+            GraphNodes.Clear();
+            GraphNodesDictionary.Clear();
+            LoadNodes();
+
         }
     }
 }

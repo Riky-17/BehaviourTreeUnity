@@ -55,6 +55,6 @@ namespace BehaviourTree.Editor
             outputContainer.Add(outputPort);
         }
 
-        public void SavePosition() => Node.SetPosition(GetPosition());
+        public void SetPosition() => Node.SetPosition(GetPosition());
     }
 }
