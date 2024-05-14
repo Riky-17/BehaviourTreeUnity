@@ -9,6 +9,8 @@ namespace BehaviourTree
         protected BehaviourTreeNode root = null;
         [HideInInspector] [SerializeReference] List<BehaviourTreeNode> children = new();
         public List<BehaviourTreeNode> Children => children;
+        [HideInInspector] [SerializeField] List<BehaviourTreeConnection> connections = new();
+        public List<BehaviourTreeConnection> Connections => connections;
 
         void Awake()
         {

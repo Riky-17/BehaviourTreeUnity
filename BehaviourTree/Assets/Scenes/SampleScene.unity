@@ -349,7 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   children: []
-  lastSavedChildren: []
+  connections: []
   wayPoints:
   - {x: 10, y: 0, z: 10}
   - {x: 15, y: 0, z: 0}
@@ -695,27 +695,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   children:
-  - rid: 6800022309452906509
-  lastSavedChildren:
-  - rid: 6800022309452906509
+  - rid: 6800022359356735488
+  - rid: 6800022359356735489
+  connections: []
   references:
     version: 2
     RefIds:
-    - rid: 6800022309452906509
+    - rid: 6800022359356735488
       type: {class: Selector, ns: BehaviourTree, asm: BehaviourTree}
       data:
         position:
           serializedVersion: 2
-          x: 340.80002
-          y: 102
+          x: 162.40001
+          y: 201.99998
           width: 0
           height: 0
-        lastSavedPosition:
+        id: f85c4b95-f5ce-4173-99b2-97d831a4ce72
+    - rid: 6800022359356735489
+      type: {class: Sequence, ns: BehaviourTree, asm: BehaviourTree}
+      data:
+        position:
           serializedVersion: 2
-          x: 218.4
-          y: 158.40001
-          width: 136
-          height: 76.79999
+          x: 516
+          y: 214.8
+          width: 0
+          height: 0
+        id: c4817a16-7d22-4786-8c6d-3bd888a55c18
 --- !u!4 &992698004
 Transform:
   m_ObjectHideFlags: 0
@@ -764,7 +769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   children: []
-  lastSavedChildren: []
+  connections: []
   wayPoints:
   - {x: 7, y: 0, z: 5}
   - {x: 0, y: 0, z: 0}
