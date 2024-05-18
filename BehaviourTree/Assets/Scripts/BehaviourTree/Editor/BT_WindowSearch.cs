@@ -8,7 +8,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace BehaviourTree.Editor
+namespace BehaviourTrees.Editor
 {
     public class BT_WindowSearch : ScriptableObject, ISearchWindowProvider
     {

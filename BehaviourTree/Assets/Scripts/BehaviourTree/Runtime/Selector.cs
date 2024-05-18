@@ -2,19 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviourTree
+namespace BehaviourTrees
 {
     [NodeInfo("Parent Node/Selector", HasMultipleOutput = true)]
     public class Selector : ParentNode
     {
         public Selector() {}
-        public Selector(BehaviourTreeNode child) : base(child) {}
-        public Selector(params BehaviourTreeNode[] children) : base(children) {}
 
         public override NodeStates ChildUpdate()
         {
-            
-
             if(Children == null || Children.Count == 0)
                 return NodeStates.Failure;
 
@@ -33,6 +29,13 @@ namespace BehaviourTree
                 }
             }
             return NodeStates.Failure;
+        }
+
+        public override List<string> PopulateChildren(BehaviourTreeGraph graph)
+        {
+            Debug.Log("Hello");
+
+            return base.PopulateChildren(graph);
         }
     }
 }

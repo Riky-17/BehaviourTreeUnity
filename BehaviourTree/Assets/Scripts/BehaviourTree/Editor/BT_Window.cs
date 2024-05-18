@@ -4,21 +4,21 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 
-namespace BehaviourTree.Editor
+namespace BehaviourTrees.Editor
 {
     public class BT_Window : EditorWindow
     {
-        MonoBehaviourTree behaviourTree;
+        BehaviourTreeGraph graph;
         SerializedObject serializedObject;
         BT_GraphView graphView;
 
-        public static void OpenWindow(MonoBehaviourTree behaviourTree)
+        public static void OpenWindow(BehaviourTreeGraph graph)
         {
             BT_Window[] bTWindows = Resources.FindObjectsOfTypeAll<BT_Window>();
 
             foreach (BT_Window bTWindow in bTWindows)
             {
-                if(bTWindow.behaviourTree.GetType() == behaviourTree.GetType())
+                if(bTWindow.graph == graph)
                 {
                     bTWindow.Focus();
                     return;
@@ -26,36 +26,33 @@ namespace BehaviourTree.Editor
             }
 
             BT_Window btWindow = CreateWindow<BT_Window>(typeof(BT_Window), typeof(SceneView));
-            btWindow.titleContent = new GUIContent(behaviourTree.GetType().Name);
-            btWindow.Load(behaviourTree);
+            btWindow.titleContent = new GUIContent(graph.name);
+            btWindow.Load(graph);
         }
 
         void OnEnable()
         {
             Undo.undoRedoPerformed += OnUndoRedoPerformed;
 
-            if(behaviourTree != null)
+            if(graph != null)
                 DrawGraph();
         }
 
         void OnDisable() => Undo.undoRedoPerformed -= OnUndoRedoPerformed;
 
-        void Load(MonoBehaviourTree behaviourTree)
+        void Load(BehaviourTreeGraph graph)
         {
-            this.behaviourTree = behaviourTree;
+            this.graph = graph;
             DrawGraph();
         }
 
         void DrawGraph()
         {
-            serializedObject = new(behaviourTree);
+            serializedObject = new(graph);
             graphView = new(serializedObject, this);
             rootVisualElement.Add(graphView);
         }
 
-        private void OnUndoRedoPerformed()
-        {
-            graphView.RefreshGraph();
-        }
+        private void OnUndoRedoPerformed() => graphView.RefreshGraph();
     }
 }

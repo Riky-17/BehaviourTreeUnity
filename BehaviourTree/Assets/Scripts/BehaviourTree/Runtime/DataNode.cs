@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviourTree
+namespace BehaviourTrees
 {
     // [NodeInfo]
     public class DataNode<T> : ParentNode
@@ -11,14 +11,14 @@ namespace BehaviourTree
         readonly Dictionary<string, T> data;
         event Action Callback;
 
-        public DataNode(string[] keys, T[] values, BehaviourTreeNode child) : base(child)
-        {
-            data = new();
-            for (int i = 0; i < keys.Length; i++)
-                SetData(keys[i], values[i]);
-        }
+        // public DataNode(string[] keys, T[] values, BehaviourTreeNode child) : base(child)
+        // {
+        //     data = new();
+        //     for (int i = 0; i < keys.Length; i++)
+        //         SetData(keys[i], values[i]);
+        // }
 
-        public override NodeStates ChildUpdate() => Children[0].ChildUpdate();
+        // public override NodeStates ChildUpdate() => Children[0].ChildUpdate();
 
         public bool TryGetData(string key, out T value)
         {

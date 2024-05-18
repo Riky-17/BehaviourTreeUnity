@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviourTree
+namespace BehaviourTrees
 {
     [NodeInfo("Parent Node/Sequence", HasMultipleOutput = true)]
     public class Sequence : ParentNode
     {
         public Sequence() {}
-        public Sequence(BehaviourTreeNode child) : base(child) {}
-        public Sequence(params BehaviourTreeNode[] children) : base(children) {}
 
         public override NodeStates ChildUpdate()
         {
@@ -31,6 +29,13 @@ namespace BehaviourTree
                 }
             }
             return NodeStates.Success;
+        }
+
+        public override List<string> PopulateChildren(BehaviourTreeGraph graph)
+        {
+            Debug.Log("Hi");
+
+            return base.PopulateChildren(graph);
         }
     }
 }

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace BehaviourTree.Editor
+namespace BehaviourTrees.Editor
 {
-    [CustomEditor(typeof(MonoBehaviourTree), true)]
+    [CustomEditor(typeof(BehaviourTreeGraph))]
     public class BT_Editor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
             if(GUILayout.Button("Open Graph"))
-                BT_Window.OpenWindow((MonoBehaviourTree)target);
+                BT_Window.OpenWindow((BehaviourTreeGraph)target);
         }
     }
 }

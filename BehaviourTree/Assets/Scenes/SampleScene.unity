@@ -240,14 +240,13 @@ GameObject:
   - component: {fileID: 544338698}
   - component: {fileID: 544338697}
   - component: {fileID: 544338696}
-  - component: {fileID: 544338700}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &544338696
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -336,29 +335,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &544338700
+--- !u!1 &612193974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 612193976}
+  - component: {fileID: 612193977}
+  m_Layer: 0
+  m_Name: Another Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &612193976
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612193974}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &612193977
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544338695}
+  m_GameObject: {fileID: 612193974}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49e283f876d8b5b40b531353ead8bf0b, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a09cb2885062d543a12db5e6c65dffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  children: []
-  connections: []
-  wayPoints:
-  - {x: 10, y: 0, z: 10}
-  - {x: 15, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: -10, y: 0, z: -15}
-  - {x: 0, y: 0, z: 10}
-  references:
-    version: 2
-    RefIds: []
+  graph: {fileID: 0}
 --- !u!1 &669736583
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,7 +695,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 992698004}
-  - component: {fileID: 992698003}
+  - component: {fileID: 992698005}
   m_Layer: 0
   m_Name: Test
   m_TagString: Untagged
@@ -682,45 +703,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &992698003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 992698002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f42d7dd4e21b2c54398668099bf672e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  children:
-  - rid: 6800022359356735488
-  - rid: 6800022359356735489
-  connections: []
-  references:
-    version: 2
-    RefIds:
-    - rid: 6800022359356735488
-      type: {class: Selector, ns: BehaviourTree, asm: BehaviourTree}
-      data:
-        position:
-          serializedVersion: 2
-          x: 162.40001
-          y: 201.99998
-          width: 0
-          height: 0
-        id: f85c4b95-f5ce-4173-99b2-97d831a4ce72
-    - rid: 6800022359356735489
-      type: {class: Sequence, ns: BehaviourTree, asm: BehaviourTree}
-      data:
-        position:
-          serializedVersion: 2
-          x: 516
-          y: 214.8
-          width: 0
-          height: 0
-        id: c4817a16-7d22-4786-8c6d-3bd888a55c18
 --- !u!4 &992698004
 Transform:
   m_ObjectHideFlags: 0
@@ -736,6 +718,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &992698005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992698002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a09cb2885062d543a12db5e6c65dffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000, guid: 68a562b9ad32c344287194e9f1e5e504, type: 2}
 --- !u!1 &2093674432
 GameObject:
   m_ObjectHideFlags: 0
@@ -748,35 +743,13 @@ GameObject:
   - component: {fileID: 2093674436}
   - component: {fileID: 2093674435}
   - component: {fileID: 2093674434}
-  - component: {fileID: 2093674433}
   m_Layer: 0
   m_Name: Enemy (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2093674433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2093674432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49e283f876d8b5b40b531353ead8bf0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  children: []
-  connections: []
-  wayPoints:
-  - {x: 7, y: 0, z: 5}
-  - {x: 0, y: 0, z: 0}
-  - {x: -3, y: 0, z: -10}
-  references:
-    version: 2
-    RefIds: []
+  m_IsActive: 0
 --- !u!136 &2093674434
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -876,3 +849,4 @@ SceneRoots:
   - {fileID: 669736588}
   - {fileID: 2093674437}
   - {fileID: 992698004}
+  - {fileID: 612193976}

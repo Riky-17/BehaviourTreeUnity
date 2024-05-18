@@ -2,30 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviourTree
+namespace BehaviourTrees
 {
     public abstract class ParentNode : BehaviourTreeNode
     {
         protected List<BehaviourTreeNode> Children {get; private set;}
 
-        public ParentNode(BehaviourTreeNode child)
-        {
-            Children = new();
-            AttachChild(child);
-        }
+        // public ParentNode(BehaviourTreeNode child)
+        // {
+        //     Children = new();
+        //     AttachChild(child);
+        // }
 
-        public ParentNode(params BehaviourTreeNode[] children)
-        {
-            Children = new();
-            foreach (BehaviourTreeNode child in children)
-                AttachChild(child);
-        }
+        // public ParentNode(params BehaviourTreeNode[] children)
+        // {
+        //     Children = new();
+        //     foreach (BehaviourTreeNode child in children)
+        //         AttachChild(child);
+        // }
         
-        void AttachChild(BehaviourTreeNode child)
-        {
-            child.parent = this;
-            Children.Add(child);
-        }
+        // void AttachChild(BehaviourTreeNode child)
+        // {
+        //     child.parent = this;
+        //     Children.Add(child);
+        // }
 
         public override void ChildAwake()
         {
@@ -49,6 +49,21 @@ namespace BehaviourTree
         {
             foreach (BehaviourTreeNode child in Children)
                 child.ChildDisable();
+        }
+
+        public override List<string> PopulateChildren(BehaviourTreeGraph graph)
+        {
+            Children = graph.GetNodes(ID);
+            if (Children == null || Children.Count == 0)
+            {
+                return null;
+            }
+            List<string> childrenID = new();
+
+            foreach (BehaviourTreeNode node in Children)
+                childrenID.Add(node.ID);
+
+            return childrenID;
         }
     }
 }

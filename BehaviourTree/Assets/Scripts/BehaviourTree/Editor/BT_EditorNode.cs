@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace BehaviourTree.Editor
+namespace BehaviourTrees.Editor
 {
     public class BT_EditorNode : Node
     {

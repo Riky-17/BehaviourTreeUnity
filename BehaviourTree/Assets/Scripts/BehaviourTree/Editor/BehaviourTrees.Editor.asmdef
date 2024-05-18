@@ -1,6 +1,6 @@
 {
-    "name": "BehaviourTree.Editor",
-    "rootNamespace": "BehaviourTree.Editor",
+    "name": "BehaviourTrees.Editor",
+    "rootNamespace": "BehaviourTrees.Editor",
     "references": [
         "GUID:cc81042a771cb0f4e9bff89d96d752cf"
     ],

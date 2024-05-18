@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviourTree
+namespace BehaviourTrees
 {
     public enum NodeStates 
     {
@@ -23,13 +23,15 @@ namespace BehaviourTree
         public virtual void ChildDisable() {}
         public virtual NodeStates ChildUpdate() => NodeStates.Failure;
 
+        public virtual List<string> PopulateChildren(BehaviourTreeGraph graph) => null;
+
         //graph methods and fields
 
         [SerializeField] Rect position;
         [SerializeField] string id; 
 
         public Rect Position => position;
-        public string Id => id;
+        public string ID => id;
         
 
         public BehaviourTreeNode() => NewGuid();

@@ -1,6 +1,6 @@
 {
-    "name": "BehaviourTree",
-    "rootNamespace": "BehaviourTree",
+    "name": "BehaviourTrees",
+    "rootNamespace": "BehaviourTrees",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
