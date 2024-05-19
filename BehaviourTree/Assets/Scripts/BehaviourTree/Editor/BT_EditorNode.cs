@@ -38,8 +38,8 @@ namespace BehaviourTrees.Editor
         private void CreateInputPort()
         {
             Port inputPort = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(PortTypes.FlowPort));
-            inputPort.portName = "Input";
-            inputPort.tooltip = "Flow Input";
+            inputPort.portName = "Parent";
+            inputPort.tooltip = "The Parent of this node";
             Ports.Add(inputPort);
             inputContainer.Add(inputPort);
         }
@@ -49,8 +49,8 @@ namespace BehaviourTrees.Editor
             Port.Capacity capacity = nodeInfo.HasMultipleOutput ? Port.Capacity.Multi : Port.Capacity.Single;
 
             Port outputPort = InstantiatePort(Orientation.Vertical, Direction.Output, capacity, typeof(PortTypes.FlowPort));
-            outputPort.portName = "Output";
-            outputPort.tooltip = "Flow Output";
+            outputPort.portName = nodeInfo.HasMultipleOutput ? "Children" : "Child";
+            outputPort.tooltip = nodeInfo.HasMultipleOutput ? "The Children of this node" : "The Child of this node";
             Ports.Add(outputPort);
             outputContainer.Add(outputPort);
         }

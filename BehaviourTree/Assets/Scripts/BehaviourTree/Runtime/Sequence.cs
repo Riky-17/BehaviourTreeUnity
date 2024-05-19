@@ -33,7 +33,7 @@ namespace BehaviourTrees
 
         public override List<string> PopulateChildren(BehaviourTreeGraph graph)
         {
-            Debug.Log("Hi");
+            Debug.Log("sequence");
 
             return base.PopulateChildren(graph);
         }

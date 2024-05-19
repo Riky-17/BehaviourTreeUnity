@@ -104,7 +104,9 @@ namespace BehaviourTrees.Editor
                     continue;
                 if(port.direction == startPort.direction)
                     continue;
-                if(port.portType == startPort.portType)
+                if(behaviourTreeGraph.AreNodesConnected(((BT_EditorNode)startPort.node).Node, ((BT_EditorNode)port.node).Node))
+                    continue;
+                if (port.portType == startPort.portType)
                     ports.Add(port);
             }
 
@@ -160,7 +162,7 @@ namespace BehaviourTrees.Editor
             BT_EditorNode outputNode = (BT_EditorNode)edge.output.node;
             int outputPortIndex = outputNode.Ports.IndexOf(edge.output);
 
-            BehaviourTreeConnection connection = new(new(inputNode.Node.ID, inputPortIndex), new(outputNode.Node.ID, outputPortIndex));
+            BehaviourTreeConnection connection = new(new(inputNode.Node, inputPortIndex), new(outputNode.Node, outputPortIndex));
             behaviourTreeGraph.Connections.Add(connection);
             ConnectionsDictionary.Add(edge, connection);
             serializedObject.Update();
@@ -176,12 +178,12 @@ namespace BehaviourTrees.Editor
 
         void DrawConnection(BehaviourTreeConnection connection)
         {
-            BT_EditorNode inputNode = GetNode(connection.inputPort.nodeID);
-            BT_EditorNode outputNode = GetNode(connection.outputPort.nodeID);
+            BT_EditorNode inputNode = GetNode(connection.inputPort.NodeID);
+            BT_EditorNode outputNode = GetNode(connection.outputPort.NodeID);
             if(inputNode == null || outputNode == null)
                 return;
-            Port inputPort = inputNode.Ports[connection.inputPort.portIndex];
-            Port outputPort = outputNode.Ports[connection.outputPort.portIndex];
+            Port inputPort = inputNode.Ports[connection.inputPort.PortIndex];
+            Port outputPort = outputNode.Ports[connection.outputPort.PortIndex];
             Edge edge = inputPort.ConnectTo(outputPort);
             ConnectionsDictionary.Add(edge, connection);
             //Debug.Log("element added");

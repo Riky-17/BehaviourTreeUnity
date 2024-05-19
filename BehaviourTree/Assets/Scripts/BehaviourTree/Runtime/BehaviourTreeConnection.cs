@@ -20,13 +20,15 @@ namespace BehaviourTrees
     [System.Serializable]
     public struct BehaviourTreeConnectionPort
     {
-        public string nodeID; 
-        public int portIndex; 
+        [SerializeReference] public BehaviourTreeNode Node;
+        public string NodeID; 
+        public int PortIndex; 
 
-        public BehaviourTreeConnectionPort(string nodeID, int portIndex)
+        public BehaviourTreeConnectionPort(BehaviourTreeNode node, int portIndex)
         {
-            this.nodeID = nodeID;
-            this.portIndex = portIndex;
+            Node = node;
+            NodeID = node.ID;
+            PortIndex = portIndex;
         }
     }
 }
