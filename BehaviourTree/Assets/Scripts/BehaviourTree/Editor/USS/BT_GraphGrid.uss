@@ -1,7 +1,34 @@
+:root
+{
+    flex-direction: row;
+}
+
+.window-properties
+{
+    width: 20%;
+    height: 100%;
+}
+
+.graph-property .unity-base-field
+{
+    margin-top: 8px;
+}
+
+.graph-property .unity-base-field .unity-base-field__label
+{
+    min-width: 50px;
+}
+
+.graph-container
+{
+    flex-grow: 1;
+}
+
 BT_GraphView
 {
     flex-grow: 1;
 }
+
 #Grid
 {
     --spacing: 15;

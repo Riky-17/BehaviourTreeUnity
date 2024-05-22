@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
+using System;
 
 namespace BehaviourTrees.Editor
 {
     public class BT_Window : EditorWindow
     {
-        BehaviourTreeGraph graph;
-        SerializedObject serializedObject;
+        [SerializeField] BehaviourTreeGraph graph;
+        SerializedObject serializedGraph;
+        SerializedObject serializedWindow;
         BT_GraphView graphView;
 
         public static void OpenWindow(BehaviourTreeGraph graph)
@@ -32,10 +36,13 @@ namespace BehaviourTrees.Editor
 
         void OnEnable()
         {
+            StyleSheet sheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/BehaviourTree/Editor/USS/BT_GraphGrid.uss");
+            rootVisualElement.styleSheets.Add(sheet);
+
             Undo.undoRedoPerformed += OnUndoRedoPerformed;
 
             if(graph != null)
-                DrawGraph();
+                PaintWindow();
         }
 
         void OnDisable() => Undo.undoRedoPerformed -= OnUndoRedoPerformed;
@@ -43,16 +50,49 @@ namespace BehaviourTrees.Editor
         void Load(BehaviourTreeGraph graph)
         {
             this.graph = graph;
+            
+            PaintWindow();
+        }
+        
+        void PaintWindow()
+        {
+            AddPropertyWindow();
             DrawGraph();
         }
 
         void DrawGraph()
         {
-            serializedObject = new(graph);
-            graphView = new(serializedObject, this);
-            rootVisualElement.Add(graphView);
+            serializedGraph = new(graph);
+            graphView = new(serializedGraph, this);
+            VisualElement graphContainer = new();
+            graphContainer.AddToClassList("graph-container");
+            rootVisualElement.Add(graphContainer);
+            graphContainer.Add(graphView);
         }
 
-        private void OnUndoRedoPerformed() => graphView.RefreshGraph();
+        void AddPropertyWindow()
+        {
+            serializedWindow = new(this);
+            VisualElement windowProperties = new();
+            windowProperties.AddToClassList("window-properties");
+            rootVisualElement.Add(windowProperties);
+            SerializedProperty graphProperty = serializedWindow.FindProperty(nameof(graph));
+            PropertyField graphPropertyField = new(graphProperty);
+            graphPropertyField.AddToClassList("graph-property");
+            graphPropertyField.Bind(serializedWindow);
+            windowProperties.Add(graphPropertyField);
+            EventCallback<SerializedPropertyChangeEvent> eventCallback = OnGraphPropertyFieldChange;
+            graphPropertyField.RegisterValueChangeCallback(eventCallback);
+        }
+
+        void OnGraphPropertyFieldChange(SerializedPropertyChangeEvent evt)
+        {
+            serializedWindow.Update();
+            titleContent = new(graph.name);
+            rootVisualElement.RemoveAt(1);
+            DrawGraph();
+        }
+
+        void OnUndoRedoPerformed() => graphView.RefreshGraph();
     }
 }

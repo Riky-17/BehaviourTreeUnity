@@ -11,7 +11,7 @@ namespace BehaviourTrees.Editor
 {
     public class BT_GraphView : GraphView
     {
-        SerializedObject serializedObject;
+        SerializedObject serializedGraph;
         BehaviourTreeGraph behaviourTreeGraph;
         BT_WindowSearch windowSearch;
 
@@ -20,10 +20,10 @@ namespace BehaviourTrees.Editor
         public Dictionary<string, BT_EditorNode> GraphNodesDictionary {get; private set;}
         public Dictionary<Edge, BehaviourTreeConnection> ConnectionsDictionary {get; private set;}
 
-        public BT_GraphView(SerializedObject serializedObject, BT_Window window)
+        public BT_GraphView(SerializedObject serializedGraph, BT_Window window)
         {
-            this.serializedObject = serializedObject;
-            behaviourTreeGraph = (BehaviourTreeGraph)serializedObject.targetObject;
+            this.serializedGraph = serializedGraph;
+            behaviourTreeGraph = (BehaviourTreeGraph)serializedGraph.targetObject;
             Window = window;
             GraphNodes = new();
             GraphNodesDictionary = new();
@@ -32,9 +32,6 @@ namespace BehaviourTrees.Editor
             windowSearch = ScriptableObject.CreateInstance<BT_WindowSearch>();
             windowSearch.graphView = this;
             nodeCreationRequest = ShowWindowSearch;
-
-            StyleSheet sheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/BehaviourTree/Editor/USS/BT_GraphGrid.uss");
-            styleSheets.Add(sheet);
 
             GridBackground background = new()
             {
@@ -59,14 +56,14 @@ namespace BehaviourTrees.Editor
             //Debug.Log("hello");
             if (graphViewChange.movedElements != null)
             {
-                Undo.RecordObject(serializedObject.targetObject, "Moved Nodes");
+                Undo.RecordObject(serializedGraph.targetObject, "Moved Nodes");
                 foreach (BT_EditorNode node in graphViewChange.movedElements.OfType<BT_EditorNode>())
                     node.SetPosition();
             }
 
             if (graphViewChange.elementsToRemove != null)
             {
-                Undo.RecordObject(serializedObject.targetObject, "Removed Nodes");
+                Undo.RecordObject(serializedGraph.targetObject, "Removed Nodes");
                 List<BT_EditorNode> nodes = graphViewChange.elementsToRemove.OfType<BT_EditorNode>().ToList();
                 for (int i = nodes.Count - 1; i >= 0; i--)
                 {
@@ -80,7 +77,7 @@ namespace BehaviourTrees.Editor
 
             if(graphViewChange.edgesToCreate != null)
             {
-                Undo.RecordObject(serializedObject.targetObject, "Connection Added");
+                Undo.RecordObject(serializedGraph.targetObject, "Connection Added");
                 foreach(Edge edge in graphViewChange.edgesToCreate)
                     CreateEdge(edge);
             }
@@ -118,7 +115,7 @@ namespace BehaviourTrees.Editor
             behaviourTreeGraph.Nodes.Remove(node.Node);
             GraphNodes.Remove(node);
             GraphNodesDictionary.Remove(node.Node.ID);
-            serializedObject.Update();
+            serializedGraph.Update();
         }
 
         void RemoveConnection(Edge edge)
@@ -127,7 +124,7 @@ namespace BehaviourTrees.Editor
             {
                 behaviourTreeGraph.Connections.Remove(connection);
                 ConnectionsDictionary.Remove(edge);
-                serializedObject.Update();
+                serializedGraph.Update();
             }
         }
 
@@ -139,9 +136,9 @@ namespace BehaviourTrees.Editor
 
         public void Add(BehaviourTreeNode node)
         {
-            Undo.RecordObject(serializedObject.targetObject, "added Node");
+            Undo.RecordObject(serializedGraph.targetObject, "added Node");
             behaviourTreeGraph.Nodes.Add(node);
-            serializedObject.Update();
+            serializedGraph.Update();
             AddNodeToGraph(node);
         }
 
@@ -165,7 +162,7 @@ namespace BehaviourTrees.Editor
             BehaviourTreeConnection connection = new(new(inputNode.Node, inputPortIndex), new(outputNode.Node, outputPortIndex));
             behaviourTreeGraph.Connections.Add(connection);
             ConnectionsDictionary.Add(edge, connection);
-            serializedObject.Update();
+            serializedGraph.Update();
         }
 
         void LoadConnections()
