@@ -36,7 +36,7 @@ namespace BehaviourTrees.Editor
 
         void OnEnable()
         {
-            StyleSheet sheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/BehaviourTree/Editor/USS/BT_GraphGrid.uss");
+            StyleSheet sheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/BehaviourTree/Editor/Style/BT_GraphStyle.uss");
             rootVisualElement.styleSheets.Add(sheet);
 
             Undo.undoRedoPerformed += OnUndoRedoPerformed;
@@ -60,22 +60,22 @@ namespace BehaviourTrees.Editor
             DrawGraph();
         }
 
-        void DrawGraph()
-        {
-            serializedGraph = new(graph);
-            graphView = new(serializedGraph, this);
-            VisualElement graphContainer = new();
-            graphContainer.AddToClassList("graph-container");
-            rootVisualElement.Add(graphContainer);
-            graphContainer.Add(graphView);
-        }
-
         void AddPropertyWindow()
         {
+            // serialize window object
             serializedWindow = new(this);
+
+            //the side of the window where to put properties
             VisualElement windowProperties = new();
             windowProperties.AddToClassList("window-properties");
             rootVisualElement.Add(windowProperties);
+
+            //header label
+            Label headerLabel = new("Graph Properties");
+            headerLabel.AddToClassList("header-label"); 
+            windowProperties.Add(headerLabel);
+
+            //the graph property
             SerializedProperty graphProperty = serializedWindow.FindProperty(nameof(graph));
             PropertyField graphPropertyField = new(graphProperty);
             graphPropertyField.AddToClassList("graph-property");
@@ -83,6 +83,19 @@ namespace BehaviourTrees.Editor
             windowProperties.Add(graphPropertyField);
             EventCallback<SerializedPropertyChangeEvent> eventCallback = OnGraphPropertyFieldChange;
             graphPropertyField.RegisterValueChangeCallback(eventCallback);
+
+
+        }
+
+        void DrawGraph()
+        {
+            serializedGraph = new(graph);
+            VisualElement graphContainer = new();
+            graphContainer.AddToClassList("graph-container");
+            rootVisualElement.Add(graphContainer);
+            graphView = new(serializedGraph, this);
+            graphView.graphViewChanged += OnGraphViewChanged;
+            graphContainer.Add(graphView);
         }
 
         void OnGraphPropertyFieldChange(SerializedPropertyChangeEvent evt)
@@ -91,6 +104,12 @@ namespace BehaviourTrees.Editor
             titleContent = new(graph.name);
             rootVisualElement.RemoveAt(1);
             DrawGraph();
+        }
+
+        GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
+        {
+            EditorUtility.SetDirty(graph);
+            return graphViewChange;
         }
 
         void OnUndoRedoPerformed() => graphView.RefreshGraph();

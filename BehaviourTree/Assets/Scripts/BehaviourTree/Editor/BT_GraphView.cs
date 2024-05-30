@@ -28,6 +28,7 @@ namespace BehaviourTrees.Editor
             GraphNodes = new();
             GraphNodesDictionary = new();
             ConnectionsDictionary = new();
+            
 
             windowSearch = ScriptableObject.CreateInstance<BT_WindowSearch>();
             windowSearch.graphView = this;
@@ -39,6 +40,8 @@ namespace BehaviourTrees.Editor
             };
             Add(background); 
             background.SendToBack();
+
+            SelectionDragger selectionDragger = new();
 
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
@@ -53,7 +56,6 @@ namespace BehaviourTrees.Editor
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
-            //Debug.Log("hello");
             if (graphViewChange.movedElements != null)
             {
                 Undo.RecordObject(serializedGraph.targetObject, "Moved Nodes");
@@ -63,7 +65,7 @@ namespace BehaviourTrees.Editor
 
             if (graphViewChange.elementsToRemove != null)
             {
-                Undo.RecordObject(serializedGraph.targetObject, "Removed Nodes");
+                Undo.RecordObject(serializedGraph.targetObject, "Removed Elements");
                 List<BT_EditorNode> nodes = graphViewChange.elementsToRemove.OfType<BT_EditorNode>().ToList();
                 for (int i = nodes.Count - 1; i >= 0; i--)
                 {
@@ -91,7 +93,12 @@ namespace BehaviourTrees.Editor
             List<Port> ports = new();
 
             foreach (BT_EditorNode node in GraphNodes)
-                allPorts.AddRange(node.Ports);
+            {
+                if(node.InputPort != null)
+                    allPorts.Add(node.InputPort);
+                if(node.OutputPort != null)
+                    allPorts.Add(node.OutputPort);
+            }
 
             foreach (Port port in allPorts)
             {
@@ -154,12 +161,9 @@ namespace BehaviourTrees.Editor
         void CreateEdge(Edge edge)
         {
             BT_EditorNode inputNode = (BT_EditorNode)edge.input.node;
-            int inputPortIndex = inputNode.Ports.IndexOf(edge.input);
-
             BT_EditorNode outputNode = (BT_EditorNode)edge.output.node;
-            int outputPortIndex = outputNode.Ports.IndexOf(edge.output);
 
-            BehaviourTreeConnection connection = new(new(inputNode.Node, inputPortIndex), new(outputNode.Node, outputPortIndex));
+            BehaviourTreeConnection connection = new(new(inputNode.Node), new(outputNode.Node));
             behaviourTreeGraph.Connections.Add(connection);
             ConnectionsDictionary.Add(edge, connection);
             serializedGraph.Update();
@@ -167,8 +171,6 @@ namespace BehaviourTrees.Editor
 
         void LoadConnections()
         {
-            //Debug.Log(behaviourTreeGraph.Connections.Count);
-
             foreach (BehaviourTreeConnection connection in behaviourTreeGraph.Connections)
                 DrawConnection(connection);
         }
@@ -179,11 +181,10 @@ namespace BehaviourTrees.Editor
             BT_EditorNode outputNode = GetNode(connection.outputPort.NodeID);
             if(inputNode == null || outputNode == null)
                 return;
-            Port inputPort = inputNode.Ports[connection.inputPort.PortIndex];
-            Port outputPort = outputNode.Ports[connection.outputPort.PortIndex];
+            Port inputPort = inputNode.InputPort;
+            Port outputPort = outputNode.OutputPort;
             Edge edge = inputPort.ConnectTo(outputPort);
             ConnectionsDictionary.Add(edge, connection);
-            //Debug.Log("element added");
             AddElement(edge);
         }
 
@@ -201,7 +202,6 @@ namespace BehaviourTrees.Editor
 
         public void RefreshGraph()
         {
-            //Debug.Log("Refreshed");
             foreach (BT_EditorNode editorNode in GraphNodes)
             {
                 editorNode.SetPosition(editorNode.Node.Position);

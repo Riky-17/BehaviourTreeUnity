@@ -9,6 +9,14 @@
     height: 100%;
 }
 
+.header-label
+{
+    padding-right: 0px;
+    margin-top: 8px;
+    -unity-font-style: bold;
+    align-self: center;
+}
+
 .graph-property .unity-base-field
 {
     margin-top: 8px;

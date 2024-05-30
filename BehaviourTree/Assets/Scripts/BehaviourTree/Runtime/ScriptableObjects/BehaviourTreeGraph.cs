@@ -9,6 +9,7 @@ namespace BehaviourTrees
     {
         [SerializeReference] List<BehaviourTreeNode> nodes;
         public List<BehaviourTreeNode> Nodes => nodes;
+
         [SerializeField] List<BehaviourTreeConnection> connections;
         public List<BehaviourTreeConnection> Connections => connections;
 

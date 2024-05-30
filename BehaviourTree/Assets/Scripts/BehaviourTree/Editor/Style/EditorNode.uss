@@ -1,0 +1,128 @@
+:root
+{
+    height: 130px;
+    width: 150px;
+}
+
+Label.unity-label
+{
+    padding: 0;
+}
+
+#selection-border
+{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    border-color: aqua;
+    border-width: 0px;
+    border-radius: 5px;
+}
+
+:hover > #selection-border
+{
+    border-width: 1px;
+}
+
+:selected > #selection-border
+{
+    border-width: 1px;
+}
+
+:hover:selected > #selection-border
+{
+    border-width: 2px;
+}
+
+#node-border
+{
+    border-color: black;
+    border-width: 1px;
+    border-radius: 6px;
+    margin: 1px;
+}
+
+#contents
+{
+    justify-content: space-between;
+    flex-grow: 1;    
+}
+
+#input
+{
+    height: 40px;
+    width: 100%;
+    background-color: rgba(46, 46, 46, .8);
+    border-top-width: 1px;
+    border-radius: 5px;
+    border-color: black;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column-reverse;
+}
+
+Port.port.input
+{
+    flex-direction: column;
+    height: 15px;
+    left: 5px;
+    top: 3px;
+}
+
+Port.input #connector
+{
+    position: absolute;
+    right: 5px;
+    top: 3px;
+}
+
+#divider
+{
+    background-color: black;
+    height: 1.5px;
+}
+
+VisualElement#title
+{
+    flex-grow: 1;
+    background-color: rgba(63, 63, 63, 0.8);
+    height: 40px;
+}
+
+Label#title-label
+{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    align-self: center;
+    -unity-text-align: middle-center;
+}
+
+#output
+{
+    height: 40px;
+    width: 100%;
+    background-color: rgba(46, 46, 46, .8);
+    border-bottom-width: 1px;
+    border-radius: 5px;
+    border-color: black;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+Port.port.output
+{
+    flex-direction: column-reverse;
+    height: 15px;
+    right: 5px;
+    bottom: 3px;
+}
+
+Port.output #connector
+{
+    position: absolute;
+    left: 5px;
+    bottom: 3px;
+}

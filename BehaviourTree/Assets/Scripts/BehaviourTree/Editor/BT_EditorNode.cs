@@ -4,18 +4,21 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace BehaviourTrees.Editor
 {
     public class BT_EditorNode : Node
     {
         public BehaviourTreeNode Node {get; private set;}
-        public List<Port> Ports {get; private set;}
+        public Port InputPort {get; private set;}
+        public Port OutputPort {get; private set;}
 
-        public BT_EditorNode(BehaviourTreeNode node)
+        public BT_EditorNode(BehaviourTreeNode node) : base("Assets/Scripts/BehaviourTree/Editor/Style/BT_GraphNode.uxml")
         {
             Node = node;
-            Ports = new();
+            capabilities ^= Capabilities.Snappable;
+            
             AddToClassList("behaviour-tree-node");
 
             Type type = node.GetType();
@@ -37,22 +40,20 @@ namespace BehaviourTrees.Editor
 
         private void CreateInputPort()
         {
-            Port inputPort = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(PortTypes.FlowPort));
-            inputPort.portName = "Parent";
-            inputPort.tooltip = "The Parent of this node";
-            Ports.Add(inputPort);
-            inputContainer.Add(inputPort);
+            InputPort = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(PortTypes.FlowPort));
+            InputPort.portName = "";
+            InputPort.tooltip = "The Parent of this node";
+            inputContainer.Add(InputPort);
         }
 
         private void CreateOutputPort(NodeInfoAttribute nodeInfo)
         {
             Port.Capacity capacity = nodeInfo.HasMultipleOutput ? Port.Capacity.Multi : Port.Capacity.Single;
 
-            Port outputPort = InstantiatePort(Orientation.Vertical, Direction.Output, capacity, typeof(PortTypes.FlowPort));
-            outputPort.portName = nodeInfo.HasMultipleOutput ? "Children" : "Child";
-            outputPort.tooltip = nodeInfo.HasMultipleOutput ? "The Children of this node" : "The Child of this node";
-            Ports.Add(outputPort);
-            outputContainer.Add(outputPort);
+            OutputPort = InstantiatePort(Orientation.Vertical, Direction.Output, capacity, typeof(PortTypes.FlowPort));
+            OutputPort.portName = "";
+            OutputPort.tooltip = nodeInfo.HasMultipleOutput ? "The Children of this node" : "The Child of this node";
+            outputContainer.Add(OutputPort);
         }
 
         public void SetPosition() => Node.SetPosition(GetPosition());

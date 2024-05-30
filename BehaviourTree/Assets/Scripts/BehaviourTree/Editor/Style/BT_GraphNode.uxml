@@ -1,0 +1,21 @@
+<UXML xmlns:ui="UnityEngine.UIElements">
+
+  <Style src="/Assets/Scripts/BehaviourTree/Editor/Style/EditorNode.uss" />
+  <ui:VisualElement name="node-border">
+    <ui:VisualElement name="contents">
+      <ui:VisualElement name="input">
+        <ui:Label name="Port-Name" text="Parent" />
+      </ui:VisualElement>
+      <ui:VisualElement name="divider" class="horizontal" />
+      <ui:VisualElement name="title">
+        <ui:Label name="title-label" text="Selector" class="unity-text-element unity-label" />
+      </ui:VisualElement>
+      <ui:VisualElement name="divider" class="horizontal" />
+      <ui:VisualElement name="output">
+        <ui:Label name="Port-Name" text="Children" />
+      </ui:VisualElement>
+    </ui:VisualElement>
+  </ui:VisualElement>
+  <ui:VisualElement name="selection-border" picking-mode="Ignore" />
+  
+</UXML>

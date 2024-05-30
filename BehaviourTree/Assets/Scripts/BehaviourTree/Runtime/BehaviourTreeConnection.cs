@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace BehaviourTrees
@@ -21,14 +22,12 @@ namespace BehaviourTrees
     public struct BehaviourTreeConnectionPort
     {
         [SerializeReference] public BehaviourTreeNode Node;
-        public string NodeID; 
-        public int PortIndex; 
+        public string NodeID;
 
-        public BehaviourTreeConnectionPort(BehaviourTreeNode node, int portIndex)
+        public BehaviourTreeConnectionPort(BehaviourTreeNode node)
         {
             Node = node;
             NodeID = node.ID;
-            PortIndex = portIndex;
         }
     }
 }
