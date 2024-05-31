@@ -12,8 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6364a09d284a7f242aaed600fb156205, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
+  root:
+    rid: 6800022736479453185
   nodes: []
   connections: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 6800022736479453185
+      type: {class: Root, ns: BehaviourTrees, asm: BehaviourTrees}
+      data:
+        position:
+          serializedVersion: 2
+          x: 298.4
+          y: 101.600006
+          width: 149.59998
+          height: 92
+        id: 6fa1d6c5-19f7-4f1f-bd54-20ea86722a52

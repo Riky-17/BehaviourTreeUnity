@@ -8,15 +8,15 @@ namespace BehaviourTrees
     public class NodeInfoAttribute : Attribute
     {
         public string Path {get; private set;}
-        public bool HasInput {get; private set;}
-        public bool HasOutput {get; private set;}
-        public bool HasMultipleOutput;
+        public bool HasParent {get; private set;}
+        public bool HasChild {get; private set;}
+        public bool HasMultipleChildren = false;
 
-        public NodeInfoAttribute(string path, bool hasInput = true, bool hasOutput = true)
+        public NodeInfoAttribute(string path, bool hasParent = true, bool hasChild = true)
         {
             Path = path;
-            HasInput = hasInput;
-            HasOutput = hasOutput;
+            HasParent = hasParent;
+            HasChild = hasChild;
         }
     }
 }

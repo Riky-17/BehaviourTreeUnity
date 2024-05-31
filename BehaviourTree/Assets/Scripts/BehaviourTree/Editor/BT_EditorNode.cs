@@ -17,7 +17,12 @@ namespace BehaviourTrees.Editor
         public BT_EditorNode(BehaviourTreeNode node) : base("Assets/Scripts/BehaviourTree/Editor/Style/BT_GraphNode.uxml")
         {
             Node = node;
-            capabilities ^= Capabilities.Snappable;
+            
+            //removing broken capabilities
+            capabilities ^= Capabilities.Snappable | Capabilities.Copiable;
+
+            if(node is Root)
+                capabilities ^= Capabilities.Deletable;
             
             AddToClassList("behaviour-tree-node");
 
@@ -32,10 +37,23 @@ namespace BehaviourTrees.Editor
 
             name = type.Name;
 
-            if(nodeInfo.HasInput)
+            if(nodeInfo.HasParent)
                 CreateInputPort();
-            if(nodeInfo.HasOutput)
+            else
+            {
+                inputContainer.style.height = 0;
+                inputContainer.Clear();
+                this.Q(className: "input-title").RemoveFromHierarchy();
+            }
+
+            if (nodeInfo.HasChild)
                 CreateOutputPort(nodeInfo);
+            else
+            {
+                outputContainer.style.height = 0;
+                outputContainer.Clear();
+                this.Q(className: "title-output").RemoveFromHierarchy();
+            }
         }
 
         private void CreateInputPort()
@@ -48,11 +66,11 @@ namespace BehaviourTrees.Editor
 
         private void CreateOutputPort(NodeInfoAttribute nodeInfo)
         {
-            Port.Capacity capacity = nodeInfo.HasMultipleOutput ? Port.Capacity.Multi : Port.Capacity.Single;
+            Port.Capacity capacity = nodeInfo.HasMultipleChildren ? Port.Capacity.Multi : Port.Capacity.Single;
 
             OutputPort = InstantiatePort(Orientation.Vertical, Direction.Output, capacity, typeof(PortTypes.FlowPort));
             OutputPort.portName = "";
-            OutputPort.tooltip = nodeInfo.HasMultipleOutput ? "The Children of this node" : "The Child of this node";
+            OutputPort.tooltip = nodeInfo.HasMultipleChildren ? "The Children of this node" : "The Child of this node";
             outputContainer.Add(OutputPort);
         }
 

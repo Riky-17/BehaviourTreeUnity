@@ -47,7 +47,9 @@ namespace BehaviourTrees.Editor
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
             this.AddManipulator(new ClickSelector());
-
+            
+            
+            AddNodeToGraph(behaviourTreeGraph.Root);
             LoadNodes();
             LoadConnections();
             

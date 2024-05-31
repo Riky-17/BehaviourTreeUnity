@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -21,6 +20,7 @@ namespace BehaviourTrees.Editor
             {
                 new SearchTreeGroupEntry(new GUIContent("Nodes"))
             };
+
             List<EntryData> entryData = new();
 
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -34,6 +34,9 @@ namespace BehaviourTrees.Editor
                         var attribute = type.GetCustomAttribute(typeof(NodeInfoAttribute));
                         if(attribute != null)
                         {
+                            if(type == typeof(Root))
+                                continue;
+                            
                             var node = Activator.CreateInstance(type);
                             SearchTreeEntry entry = new(new(type.Name))
                             {

@@ -7,6 +7,9 @@ namespace BehaviourTrees
     [CreateAssetMenu(menuName = "Behavior Tree Graph/New Tree")]
     public class BehaviourTreeGraph : ScriptableObject
     {
+        [SerializeReference] Root root;
+        public Root Root => root;
+
         [SerializeReference] List<BehaviourTreeNode> nodes;
         public List<BehaviourTreeNode> Nodes => nodes;
 
@@ -14,7 +17,8 @@ namespace BehaviourTrees
         public List<BehaviourTreeConnection> Connections => connections;
 
         public BehaviourTreeGraph()
-        {
+        {   
+            root = new Root();
             nodes = new();
             connections = new();
         }
