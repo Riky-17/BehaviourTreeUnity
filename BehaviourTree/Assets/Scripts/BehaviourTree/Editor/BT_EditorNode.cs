@@ -41,8 +41,7 @@ namespace BehaviourTrees.Editor
                 CreateInputPort();
             else
             {
-                inputContainer.style.height = 0;
-                inputContainer.Clear();
+                inputContainer.RemoveFromHierarchy();
                 this.Q(className: "input-title").RemoveFromHierarchy();
             }
 
@@ -50,8 +49,7 @@ namespace BehaviourTrees.Editor
                 CreateOutputPort(nodeInfo);
             else
             {
-                outputContainer.style.height = 0;
-                outputContainer.Clear();
+                outputContainer.RemoveFromHierarchy();
                 this.Q(className: "title-output").RemoveFromHierarchy();
             }
         }

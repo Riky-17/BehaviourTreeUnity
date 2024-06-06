@@ -11,11 +11,13 @@ public class EnemyPatrolling : Leaf
     float speed;
     int index = 0;
 
-    public EnemyPatrolling(Transform transform, List<Vector3> wayPoints)
-    {
-        this.transform = transform;
-        this.wayPoints = wayPoints;
-    }
+    public EnemyPatrolling() {}
+
+    // public EnemyPatrolling(Transform transform, List<Vector3> wayPoints)
+    // {
+    //     this.transform = transform;
+    //     this.wayPoints = wayPoints;
+    // }
 
     public override void ChildStart() => speed = GetData<float>(nameof(speed), OnSpeedChange);
 

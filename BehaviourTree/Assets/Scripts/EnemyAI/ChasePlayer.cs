@@ -10,7 +10,8 @@ public class ChasePlayer : Leaf
     float minDist = 1f;
     float speed;
 
-    public ChasePlayer(Transform transform) => this.transform = transform;
+    public ChasePlayer() {}
+    //public ChasePlayer(Transform transform) => this.transform = transform;
 
     public override void ChildStart() => speed = GetData<float>(nameof(speed), OnSpeedChange);
 

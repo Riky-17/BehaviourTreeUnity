@@ -10,7 +10,9 @@ public class LookForPlayer : Leaf
     Collider[] colliders;
     float radius = 8;
 
-    public LookForPlayer(Transform transform) => this.transform = transform;
+    public LookForPlayer() {}
+    
+    // public LookForPlayer(Transform transform) => this.transform = transform;
 
     public override NodeStates ChildUpdate()
     {

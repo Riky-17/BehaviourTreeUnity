@@ -21,36 +21,83 @@ namespace BehaviourTrees.Editor
                 new SearchTreeGroupEntry(new GUIContent("Nodes"))
             };
 
-            List<EntryData> entryData = new();
+            List<EntryDataElement> entryDataElements = new();
 
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            List<Attribute> attributes;
             
             foreach (Assembly assembly in assemblies)
             {
                 foreach (Type type in assembly.GetTypes())
                 {
-                    if(type.GetCustomAttributes().ToList() != null)
+                    attributes = type.GetCustomAttributes().ToList();
+                    if(attributes != null && attributes.Count > 0)
                     {
                         var attribute = type.GetCustomAttribute(typeof(NodeInfoAttribute));
                         if(attribute != null)
                         {
-                            if(type == typeof(Root))
+                            NodeInfoAttribute nodeInfo = (NodeInfoAttribute)attribute;
+
+                            if(type == typeof(Root) || string.IsNullOrEmpty(nodeInfo.Path))
                                 continue;
                             
                             var node = Activator.CreateInstance(type);
-                            SearchTreeEntry entry = new(new(type.Name))
-                            {
-                                level = 1,
-                                userData = new EntryData(type.Name, node)
-                            };
-                            tree.Add(entry);
-                            entryData.Add(new(type.Name, node));
+                            entryDataElements.Add(new(nodeInfo.Path, node));
                         }
+                    }
+                    else if(type.IsSubclassOf(typeof(Leaf)))
+                    {
+                        var node = Activator.CreateInstance(type);
+                        string Path = "Leaf/" + type.Name;
+                        entryDataElements.Add(new(Path, node));
                     }
                 }
             }
 
+            entryDataElements.Sort((entryRight, entryLeft) =>
+            {
+                // Debug.Log(entryLeft.Path + " " + entryRight.Path);
+                string[] splitsRight = entryRight.Path.Split('/');
+                string[] splitsLeft = entryLeft.Path.Split('/');
+                
+                if(splitsLeft.Length != splitsRight.Length && splitsLeft.Length == 1)
+                    return -1;
 
+                for (int i = 0; i < splitsRight.Length; i++)
+                {
+                    if(i >= splitsLeft.Length)
+                        return 1;
+
+                    int value = splitsRight[i].CompareTo(splitsLeft[i]);
+                    if(value != 0)
+                        return value;
+                }
+
+                return 0;
+            });
+
+            List<string> groups = new();
+            
+            foreach(EntryDataElement dataElement in entryDataElements)
+            {
+                string[] pathTitles = dataElement.Path.Split('/');
+                string groupName = "";
+
+                for (int i = 0; i < pathTitles.Length - 1; i++)
+                {
+                    groupName += pathTitles[i];
+                    if(!groups.Contains(groupName))
+                    {
+                        tree.Add(new SearchTreeGroupEntry(new(pathTitles[i]), i + 1));
+                        groups.Add(groupName);
+                    }
+                    groupName += "/";
+                }
+
+                SearchTreeEntry entry = new SearchTreeEntry(new(pathTitles.Last())) {level = pathTitles.Length, userData = dataElement};
+                tree.Add(entry);
+            }
+            
             return tree;
         }
 
@@ -59,8 +106,8 @@ namespace BehaviourTrees.Editor
             var windowMousePosition = graphView.ChangeCoordinatesTo(graphView, context.screenMousePosition - graphView.Window.position.position);
             var graphMousePosition = graphView.contentViewContainer.WorldToLocal(windowMousePosition);
 
-            EntryData data = (EntryData)SearchTreeEntry.userData;
-            BehaviourTreeNode node = (BehaviourTreeNode)data.Data;
+            EntryDataElement dataElement = (EntryDataElement)SearchTreeEntry.userData;
+            BehaviourTreeNode node = (BehaviourTreeNode)dataElement.Node;
             node.SetPosition(new(graphMousePosition, new()));
             graphView.Add(node);
             
@@ -68,15 +115,15 @@ namespace BehaviourTrees.Editor
         }
     }
 
-    public struct EntryData
+    public struct EntryDataElement
     {
-        public string Title {get; private set;}
-        public object Data {get; private set;}
+        public string Path {get; private set;}
+        public object Node {get; private set;}
 
-        public EntryData(string title, object data)
+        public EntryDataElement(string path, object data)
         {
-            Title = title;
-            Data = data;
+            Path = path;
+            Node = data;
         }
     }
 }
