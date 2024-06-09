@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace BehaviourTrees
 {
+    [NodeInfo("Leaf/", hasChild: false)]
     public abstract class Leaf : BehaviourTreeNode 
     {
         public Leaf() : base() {}

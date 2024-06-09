@@ -14,18 +14,75 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   root:
     rid: 6800022736479453185
-  nodes: []
-  connections: []
+  nodes:
+  - rid: 6126018295263657990
+  - rid: 6126018314154803200
+  - rid: 6126018314154803201
+  connections:
+  - inputPort:
+      Node:
+        rid: 6126018314154803201
+      NodeID: 772c0b21-b43d-477c-b4dd-f4a056ccd52f
+    outputPort:
+      Node:
+        rid: 6800022736479453185
+      NodeID: 6fa1d6c5-19f7-4f1f-bd54-20ea86722a52
+  - inputPort:
+      Node:
+        rid: 6126018314154803200
+      NodeID: 2ec0881c-c395-4678-925a-08c14c07187c
+    outputPort:
+      Node:
+        rid: 6126018314154803201
+      NodeID: 772c0b21-b43d-477c-b4dd-f4a056ccd52f
+  - inputPort:
+      Node:
+        rid: 6126018295263657990
+      NodeID: fd59458a-d6e1-451a-a435-b3f2dc7c3a5c
+    outputPort:
+      Node:
+        rid: 6126018314154803201
+      NodeID: 772c0b21-b43d-477c-b4dd-f4a056ccd52f
   references:
     version: 2
     RefIds:
+    - rid: 6126018295263657990
+      type: {class: ChasePlayer, ns: , asm: Assembly-CSharp}
+      data:
+        position:
+          serializedVersion: 2
+          x: 448.8
+          y: 329.59998
+          width: 150.40002
+          height: 91.20001
+        id: fd59458a-d6e1-451a-a435-b3f2dc7c3a5c
+    - rid: 6126018314154803200
+      type: {class: EnemyPatrolling, ns: , asm: Assembly-CSharp}
+      data:
+        position:
+          serializedVersion: 2
+          x: 53.599976
+          y: 346.4
+          width: 150.40002
+          height: 91.19998
+        id: 2ec0881c-c395-4678-925a-08c14c07187c
+    - rid: 6126018314154803201
+      type: {class: Sequence, ns: BehaviourTrees, asm: BehaviourTrees}
+      data:
+        position:
+          serializedVersion: 2
+          x: 239.20001
+          y: 137.6
+          width: 150.39996
+          height: 132.8
+        id: 772c0b21-b43d-477c-b4dd-f4a056ccd52f
     - rid: 6800022736479453185
       type: {class: Root, ns: BehaviourTrees, asm: BehaviourTrees}
       data:
         position:
           serializedVersion: 2
-          x: 240.79999
-          y: 206.40001
-          width: 149.6
-          height: 92
+          x: 231.20001
+          y: 3.1999989
+          width: 150.39996
+          height: 91.2
         id: 6fa1d6c5-19f7-4f1f-bd54-20ea86722a52

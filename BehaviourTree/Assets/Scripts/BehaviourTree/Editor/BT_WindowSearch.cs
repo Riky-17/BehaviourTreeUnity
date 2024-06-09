@@ -30,7 +30,11 @@ namespace BehaviourTrees.Editor
             {
                 foreach (Type type in assembly.GetTypes())
                 {
+                    if(type == typeof(Leaf) || type == typeof(Root))
+                        continue;
+
                     attributes = type.GetCustomAttributes().ToList();
+
                     if(attributes != null && attributes.Count > 0)
                     {
                         var attribute = type.GetCustomAttribute(typeof(NodeInfoAttribute));
@@ -38,18 +42,19 @@ namespace BehaviourTrees.Editor
                         {
                             NodeInfoAttribute nodeInfo = (NodeInfoAttribute)attribute;
 
-                            if(type == typeof(Root) || string.IsNullOrEmpty(nodeInfo.Path))
+                            if(string.IsNullOrEmpty(nodeInfo.Path))
                                 continue;
                             
                             var node = Activator.CreateInstance(type);
-                            entryDataElements.Add(new(nodeInfo.Path, node));
+                            string path = nodeInfo.Path;
+
+                            if(type.IsSubclassOf(typeof(Leaf)))
+                            {
+                                path += type.Name;
+                                path = path.AddSpaces();
+                            }
+                            entryDataElements.Add(new(path, node));
                         }
-                    }
-                    else if(type.IsSubclassOf(typeof(Leaf)))
-                    {
-                        var node = Activator.CreateInstance(type);
-                        string Path = "Leaf/" + type.Name;
-                        entryDataElements.Add(new(Path, node));
                     }
                 }
             }

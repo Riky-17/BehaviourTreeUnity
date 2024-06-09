@@ -26,8 +26,10 @@ namespace BehaviourTrees.Editor
             
             AddToClassList("behaviour-tree-node");
 
+            // Type type = node.GetType().IsSubclassOf(typeof(Leaf)) ? typeof(Leaf) : node.GetType();
             Type type = node.GetType();
-            title = type.Name;
+            title = type.Name.AddSpaces();
+
             NodeInfoAttribute nodeInfo = type.GetCustomAttribute<NodeInfoAttribute>();
             
             string[] depths = nodeInfo.Path.Split('/');
