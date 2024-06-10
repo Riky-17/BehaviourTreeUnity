@@ -54,12 +54,12 @@ namespace BehaviourTrees
         public override List<string> PopulateChildren(BehaviourTreeGraph graph)
         {
             Children = graph.GetNodes(ID);
-            if (Children == null || Children.Count == 0)
-            {
-                return null;
-            }
-            List<string> childrenID = new();
 
+            if (Children == null || Children.Count == 0)
+                return null;
+
+            List<string> childrenID = new();
+            
             foreach (BehaviourTreeNode node in Children)
                 childrenID.Add(node.ID);
 

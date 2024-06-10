@@ -8,13 +8,13 @@ namespace BehaviourTrees
     [System.Serializable]
     public struct BehaviourTreeConnection
     {
-        public BehaviourTreeConnectionPort inputPort;
-        public BehaviourTreeConnectionPort outputPort;
+        public BehaviourTreeConnectionPort parentPort;
+        public BehaviourTreeConnectionPort childPort;
 
-        public BehaviourTreeConnection(BehaviourTreeConnectionPort inputPort, BehaviourTreeConnectionPort outputPort)
+        public BehaviourTreeConnection(BehaviourTreeConnectionPort parentPort, BehaviourTreeConnectionPort childPort)
         {
-            this.inputPort = inputPort;
-            this.outputPort = outputPort;
+            this.parentPort = parentPort;
+            this.childPort = childPort;
         }
     }
 

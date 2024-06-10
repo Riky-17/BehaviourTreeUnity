@@ -8,10 +8,11 @@ namespace BehaviourTrees
     {
         [SerializeField] BehaviourTreeGraph graph;
 
-        Root root = new();
+        Root root;
 
         void Awake()
         {
+            root = graph.Root;
             SetUpTree();
             root?.ChildAwake();
         }
@@ -22,10 +23,7 @@ namespace BehaviourTrees
 
         void Update() => root?.ChildUpdate();
 
-        void SetUpTree()
-        {
-            PopulateTree(root);
-        }
+        void SetUpTree() => PopulateTree(root);
 
         void PopulateTree(BehaviourTreeNode node)
         {

@@ -162,10 +162,10 @@ namespace BehaviourTrees.Editor
 
         void CreateEdge(Edge edge)
         {
-            BT_EditorNode inputNode = (BT_EditorNode)edge.input.node;
-            BT_EditorNode outputNode = (BT_EditorNode)edge.output.node;
+            BT_EditorNode parentNode = (BT_EditorNode)edge.output.node;
+            BT_EditorNode childNode = (BT_EditorNode)edge.input.node;
 
-            BehaviourTreeConnection connection = new(new(inputNode.Node), new(outputNode.Node));
+            BehaviourTreeConnection connection = new(new(parentNode.Node), new(childNode.Node));
             behaviourTreeGraph.Connections.Add(connection);
             ConnectionsDictionary.Add(edge, connection);
             serializedGraph.Update();
@@ -179,12 +179,12 @@ namespace BehaviourTrees.Editor
 
         void DrawConnection(BehaviourTreeConnection connection)
         {
-            BT_EditorNode inputNode = GetNode(connection.inputPort.NodeID);
-            BT_EditorNode outputNode = GetNode(connection.outputPort.NodeID);
-            if(inputNode == null || outputNode == null)
+            BT_EditorNode parentNode = GetNode(connection.parentPort.NodeID);
+            BT_EditorNode childNode = GetNode(connection.childPort.NodeID);
+            if(childNode == null || parentNode == null)
                 return;
-            Port inputPort = inputNode.InputPort;
-            Port outputPort = outputNode.OutputPort;
+            Port inputPort = childNode.InputPort;
+            Port outputPort = parentNode.OutputPort;
             Edge edge = inputPort.ConnectTo(outputPort);
             ConnectionsDictionary.Add(edge, connection);
             AddElement(edge);
@@ -216,6 +216,7 @@ namespace BehaviourTrees.Editor
             GraphNodes.Clear();
             GraphNodesDictionary.Clear();
             ConnectionsDictionary.Clear();
+            AddNodeToGraph(behaviourTreeGraph.Root);
             LoadNodes();
             LoadConnections();
         }

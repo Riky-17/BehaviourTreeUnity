@@ -30,7 +30,7 @@ namespace BehaviourTrees
                 return true;
             
             int index = 0;
-            List<BehaviourTreeNode> connectedNodesToCurrent = new();
+            List<BehaviourTreeNode> connectedNodesToCurrent;
 
             while(true)
             {
@@ -65,16 +65,16 @@ namespace BehaviourTrees
             return null;
         }
 
-        public List<BehaviourTreeNode> GetNodes(string outputNodeID)
+        public List<BehaviourTreeNode> GetNodes(string parentNodeID)
         {
             List<BehaviourTreeNode> nodes = new();
 
             foreach (BehaviourTreeConnection connection in connections)
             {
-                if(connection.outputPort.NodeID == outputNodeID)
+                if(connection.parentPort.NodeID == parentNodeID)
                 {
-                    string inputNodeID = connection.inputPort.NodeID;
-                    nodes.Add(SearchNode(inputNodeID));
+                    string childNodeID = connection.childPort.NodeID;
+                    nodes.Add(SearchNode(childNodeID));
                 }
             }
             return nodes;
@@ -86,10 +86,10 @@ namespace BehaviourTrees
 
             foreach (BehaviourTreeConnection connection in connections)
             {
-                if(connection.inputPort.Node == node)
-                    connectedNodes.Add(connection.outputPort.Node);
-                if(connection.outputPort.Node == node)
-                    connectedNodes.Add(connection.inputPort.Node);
+                if(connection.parentPort.Node == node)
+                    connectedNodes.Add(connection.childPort.Node);
+                if(connection.childPort.Node == node)
+                    connectedNodes.Add(connection.parentPort.Node);
             }
             return connectedNodes;
         }
