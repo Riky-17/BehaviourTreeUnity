@@ -29,7 +29,7 @@ namespace BehaviourTrees
         {
             List<string> childrenID = node.PopulateChildren(graph);
             
-            if (childrenID == null || childrenID.Count == 0)
+            if (childrenID.Count == 0)
                 return;
 
             foreach (string nextNodeID in childrenID)

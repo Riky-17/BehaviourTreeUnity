@@ -14,7 +14,13 @@ namespace BehaviourTrees.Editor
         [SerializeField] BehaviourTreeGraph graph;
         SerializedObject serializedGraph;
         SerializedObject serializedWindow;
+        
         BT_GraphView graphView;
+
+        VisualElement windowProperties;
+        List<BehaviourTreeNode> selectedNodes;
+
+        const string MARGIN_TOP = "margin-top";
 
         public static void OpenWindow(BehaviourTreeGraph graph)
         {
@@ -37,6 +43,7 @@ namespace BehaviourTrees.Editor
         void OnEnable()
         {
             StyleSheet sheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/BehaviourTree/Editor/Style/BT_GraphStyle.uss");
+            selectedNodes = new();
             rootVisualElement.styleSheets.Add(sheet);
 
             Undo.undoRedoPerformed += OnUndoRedoPerformed;
@@ -62,29 +69,71 @@ namespace BehaviourTrees.Editor
 
         void AddPropertyWindow()
         {
+
+            string headerClass = "header-label";
             // serialize window object
             serializedWindow = new(this);
 
             //the side of the window where to put properties
-            VisualElement windowProperties = new();
+            windowProperties = new();
             windowProperties.AddToClassList("window-properties");
             rootVisualElement.Add(windowProperties);
 
-            //header label
-            Label headerLabel = new("Graph Properties");
-            headerLabel.AddToClassList("header-label"); 
-            windowProperties.Add(headerLabel);
+            //header label for graph properties
+            Label headerGraphLabel = new("Graph Properties");
+            headerGraphLabel.AddMarginTopClass(); 
+            headerGraphLabel.AddToClassList(headerClass); 
+            windowProperties.Add(headerGraphLabel);
 
             //the graph property
             SerializedProperty graphProperty = serializedWindow.FindProperty(nameof(graph));
             PropertyField graphPropertyField = new(graphProperty);
+            graphPropertyField.AddMarginTopClass();
             graphPropertyField.AddToClassList("graph-property");
+            serializedWindow.Update();
             graphPropertyField.Bind(serializedWindow);
             windowProperties.Add(graphPropertyField);
             EventCallback<SerializedPropertyChangeEvent> eventCallback = OnGraphPropertyFieldChange;
             graphPropertyField.RegisterValueChangeCallback(eventCallback);
 
+            //header label for node properties
+            Label headerNodeLabel = new("Nodes Properties");
+            headerNodeLabel.AddMarginTopClass();
+            headerNodeLabel.AddToClassList(headerClass);
+            windowProperties.Add(headerNodeLabel);
+        }
 
+        public void AddNodeFields(BehaviourTreeNode node, Label nodeLabel, List<PropertyField> fields)
+        {
+            // string fieldClass = "node-property";
+            if(selectedNodes.Contains(node))
+                return;
+            
+            windowProperties.Add(nodeLabel);
+            selectedNodes.Add(node);
+
+            foreach (PropertyField field in fields)
+            {
+                windowProperties.Add(field);
+                serializedGraph.Update();
+                field.Bind(serializedGraph);
+            }
+        }
+
+        public void RemoveNodeFields(BehaviourTreeNode node, Label nodeLabel, List<PropertyField> fields)
+        {
+            if(!selectedNodes.Contains(node))
+                return;
+            
+            nodeLabel.RemoveFromHierarchy();
+            selectedNodes.Remove(node);
+
+            foreach (PropertyField field in fields)
+            {
+                field.RemoveFromHierarchy();
+                serializedGraph.Update();
+                field.Unbind();
+            }
         }
 
         void DrawGraph()

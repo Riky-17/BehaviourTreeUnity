@@ -12,17 +12,16 @@
 .header-label
 {
     padding-right: 0px;
-    margin-top: 8px;
     -unity-font-style: bold;
     align-self: center;
 }
 
-.graph-property .unity-base-field
+.margin-top
 {
     margin-top: 8px;
 }
 
-.graph-property .unity-base-field .unity-base-field__label
+.unity-property-field .unity-base-field .unity-base-field__label
 {
     min-width: 50px;
 }

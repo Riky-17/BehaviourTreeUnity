@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace BehaviourTrees.Editor
 {
-    public static class HelperClassString
+    public static class HelperClass
     {
         public static string AddSpaces(this string text)
         {
@@ -27,6 +28,11 @@ namespace BehaviourTrees.Editor
                 endText += text[i]; 
             }
             return endText;
+        }
+
+        public static void AddMarginTopClass(this VisualElement element)
+        {
+            element.AddToClassList("margin-top");
         }
     }
 }

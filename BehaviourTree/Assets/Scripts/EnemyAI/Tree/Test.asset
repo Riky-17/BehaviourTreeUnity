@@ -14,18 +14,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   root:
     rid: 6800022736479453185
-  nodes: []
-  connections: []
+  nodes:
+  - rid: 6126018387191529472
+  - rid: 6126018451516686336
+  connections:
+  - parentPort:
+      Node:
+        rid: 6800022736479453185
+      NodeID: 6fa1d6c5-19f7-4f1f-bd54-20ea86722a52
+    childPort:
+      Node:
+        rid: 6126018387191529472
+      NodeID: aaab56b0-8ec3-4cc5-bb60-d07a6211a0ad
   references:
     version: 2
     RefIds:
+    - rid: 6126018387191529472
+      type: {class: DebugNode, ns: BehaviourTrees, asm: BehaviourTrees}
+      data:
+        position:
+          serializedVersion: 2
+          x: 268
+          y: 275.19998
+          width: 150.4
+          height: 91.20001
+        id: aaab56b0-8ec3-4cc5-bb60-d07a6211a0ad
+        text: 
+    - rid: 6126018451516686336
+      type: {class: DebugNode, ns: BehaviourTrees, asm: BehaviourTrees}
+      data:
+        position:
+          serializedVersion: 2
+          x: 511.19998
+          y: 294.4
+          width: 149.60004
+          height: 91.19998
+        id: 8a17fd3f-88d7-4ec2-bc18-ec0b9ff1dfc2
+        text: 
     - rid: 6800022736479453185
       type: {class: Root, ns: BehaviourTrees, asm: BehaviourTrees}
       data:
         position:
           serializedVersion: 2
-          x: 313.6
-          y: 224
-          width: 150.40002
+          x: 207.20001
+          y: 125.600006
+          width: 150.4
           height: 91.2
         id: 6fa1d6c5-19f7-4f1f-bd54-20ea86722a52

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,7 +14,7 @@ namespace BehaviourTrees.Editor
     {
         SerializedObject serializedGraph;
         BehaviourTreeGraph behaviourTreeGraph;
-        BT_WindowSearch windowSearch;
+        BT_SearchWindow windowSearch;
 
         public BT_Window Window {get; private set;}
         public List<BT_EditorNode> GraphNodes {get; private set;}
@@ -30,14 +31,11 @@ namespace BehaviourTrees.Editor
             ConnectionsDictionary = new();
             
 
-            windowSearch = ScriptableObject.CreateInstance<BT_WindowSearch>();
+            windowSearch = ScriptableObject.CreateInstance<BT_SearchWindow>();
             windowSearch.graphView = this;
             nodeCreationRequest = ShowWindowSearch;
 
-            GridBackground background = new()
-            {
-                name = "Grid"
-            };
+            GridBackground background = new() { name = "Grid" };
             Add(background); 
             background.SendToBack();
 
@@ -110,7 +108,7 @@ namespace BehaviourTrees.Editor
                     continue;
                 if(port.direction == startPort.direction)
                     continue;
-                if(behaviourTreeGraph.AreNodesConnected(((BT_EditorNode)startPort.node).Node, ((BT_EditorNode)port.node).Node))
+                if(startPort.direction == Direction.Output && behaviourTreeGraph.AreNodesConnected(((BT_EditorNode)startPort.node).Node, ((BT_EditorNode)port.node).Node))
                     continue;
                 if (port.portType == startPort.portType)
                     ports.Add(port);
@@ -153,11 +151,12 @@ namespace BehaviourTrees.Editor
 
         void AddNodeToGraph(BehaviourTreeNode node)
         {
-            BT_EditorNode editorNode = new(node);
+            BT_EditorNode editorNode = new(node, serializedGraph, Window);
             editorNode.SetPosition(node.Position);
             AddElement(editorNode);
             GraphNodes.Add(editorNode);
             GraphNodesDictionary.Add(node.ID, editorNode);
+            Bind();
         }
 
         void CreateEdge(Edge edge)
@@ -219,6 +218,12 @@ namespace BehaviourTrees.Editor
             AddNodeToGraph(behaviourTreeGraph.Root);
             LoadNodes();
             LoadConnections();
+        }
+
+        void Bind()
+        {
+            serializedGraph.Update();
+            this.Bind(serializedGraph);
         }
     }
 }

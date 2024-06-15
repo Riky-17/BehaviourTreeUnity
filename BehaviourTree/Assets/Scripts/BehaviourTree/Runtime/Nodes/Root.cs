@@ -11,7 +11,7 @@ namespace BehaviourTrees
 
         public override NodeStates ChildUpdate()
         {
-            if(Children == null || Children.Count == 0)
+            if(Children.Count == 0)
                 return NodeStates.Failure;
 
             return Children[0].ChildUpdate();

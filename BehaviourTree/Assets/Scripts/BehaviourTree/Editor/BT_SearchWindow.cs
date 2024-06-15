@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 
 namespace BehaviourTrees.Editor
 {
-    public class BT_WindowSearch : ScriptableObject, ISearchWindowProvider
+    public class BT_SearchWindow : ScriptableObject, ISearchWindowProvider
     {
         public BT_GraphView graphView;
         public VisualElement target;
@@ -50,6 +50,9 @@ namespace BehaviourTrees.Editor
 
                             if(type.IsSubclassOf(typeof(Leaf)))
                             {
+                                if(assembly.GetName().Name != nameof(BehaviourTrees))
+                                    path += "CustomLeaf/";
+                                    
                                 path += type.Name;
                                 path = path.AddSpaces();
                             }

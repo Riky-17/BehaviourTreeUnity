@@ -55,8 +55,20 @@ namespace BehaviourTrees
         {
             Children = graph.GetNodes(ID);
 
-            if (Children == null || Children.Count == 0)
+            if (Children.Count == 0)
                 return null;
+
+            // if (Children.Count > 1)
+            //     {
+            //         Children.Sort((nodeRight, nodeLeft) =>
+            //         {
+            //             float nodeRightPosX = nodeRight.Position.x;
+            //             float nodeLeftPosX = nodeLeft.Position.x;
+
+            //             int value = nodeRightPosX.CompareTo(nodeLeftPosX);
+            //             return value;
+            //         });
+            //     }
 
             List<string> childrenID = new();
             
