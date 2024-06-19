@@ -13,11 +13,11 @@ public class ChasePlayer : Leaf
     public ChasePlayer() {}
     //public ChasePlayer(Transform transform) => this.transform = transform;
 
-    public override void ChildStart() => speed = GetData<float>(nameof(speed), OnSpeedChange);
+    //public override void ChildStart() => speed = GetData<float>(nameof(speed), OnSpeedChange);
 
     public override NodeStates ChildUpdate()
     {
-        target = GetData<Transform>(nameof(target));
+        //target = GetData<Transform>(nameof(target));
         Vector3 posToTarget = target.position - transform.position;
 
         if(posToTarget.magnitude <= minDist)
@@ -29,5 +29,5 @@ public class ChasePlayer : Leaf
         return NodeStates.Running;
     }
 
-    void OnSpeedChange() => speed = GetData<float>(nameof(speed));
+    //void OnSpeedChange() => speed = GetData<float>(nameof(speed));
 }

@@ -33,7 +33,6 @@ namespace BehaviourTrees
         public Rect Position => position;
         public string ID => id;
         
-
         public BehaviourTreeNode() => NewGuid();
 
         public void SetPosition(Rect rect) => position = rect;

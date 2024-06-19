@@ -30,9 +30,12 @@ namespace BehaviourTrees.Editor
             return endText;
         }
 
-        public static void AddMarginTopClass(this VisualElement element)
+        public static void AddToClassList(this VisualElement element, params string[] classes)
         {
-            element.AddToClassList("margin-top");
+            foreach (string classString in classes)
+            {
+                element.AddToClassList(classString);
+            }
         }
     }
 }

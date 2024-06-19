@@ -8,7 +8,7 @@ namespace BehaviourTrees
     public class DebugNode : Leaf
     {
         [Flags]
-        public enum Methods 
+        enum Methods 
         {
             Awake = 1,
             OnEnable = 2,
@@ -18,6 +18,7 @@ namespace BehaviourTrees
         }
 
         [ShowField, SerializeField] string text;
+        [ShowField, SerializeField] List<string> texts;
         [ShowField, SerializeField] Methods methods;
         [ShowField, SerializeField] NodeStates state;
 

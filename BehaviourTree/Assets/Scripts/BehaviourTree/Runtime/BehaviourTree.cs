@@ -14,7 +14,6 @@ namespace BehaviourTrees
         {
             root = graph.Root;
             SetUpTree();
-            root?.ChildAwake();
         }
 
         void Start() => root?.ChildStart();
@@ -29,7 +28,7 @@ namespace BehaviourTrees
         {
             List<string> childrenID = node.PopulateChildren(graph);
             
-            if (childrenID.Count == 0)
+            if (childrenID == null || childrenID.Count == 0)
                 return;
 
             foreach (string nextNodeID in childrenID)

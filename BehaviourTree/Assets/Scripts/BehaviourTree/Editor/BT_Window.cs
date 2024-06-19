@@ -18,9 +18,11 @@ namespace BehaviourTrees.Editor
         BT_GraphView graphView;
 
         VisualElement windowProperties;
+        Label noSelectedNodesLabel;
         List<BehaviourTreeNode> selectedNodes;
 
         const string MARGIN_TOP = "margin-top";
+        const string CENTERED = "centered";
 
         public static void OpenWindow(BehaviourTreeGraph graph)
         {
@@ -43,6 +45,8 @@ namespace BehaviourTrees.Editor
         void OnEnable()
         {
             StyleSheet sheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/BehaviourTree/Editor/Style/BT_GraphStyle.uss");
+            noSelectedNodesLabel = new("No nodes have been selected");
+            noSelectedNodesLabel.AddToClassList(MARGIN_TOP, CENTERED);
             selectedNodes = new();
             rootVisualElement.styleSheets.Add(sheet);
 
@@ -81,15 +85,13 @@ namespace BehaviourTrees.Editor
 
             //header label for graph properties
             Label headerGraphLabel = new("Graph Properties");
-            headerGraphLabel.AddMarginTopClass(); 
-            headerGraphLabel.AddToClassList(headerClass); 
+            headerGraphLabel.AddToClassList(MARGIN_TOP, headerClass, CENTERED); 
             windowProperties.Add(headerGraphLabel);
 
             //the graph property
             SerializedProperty graphProperty = serializedWindow.FindProperty(nameof(graph));
             PropertyField graphPropertyField = new(graphProperty);
-            graphPropertyField.AddMarginTopClass();
-            graphPropertyField.AddToClassList("graph-property");
+            graphPropertyField.AddToClassList(MARGIN_TOP);
             serializedWindow.Update();
             graphPropertyField.Bind(serializedWindow);
             windowProperties.Add(graphPropertyField);
@@ -98,12 +100,12 @@ namespace BehaviourTrees.Editor
 
             //header label for node properties
             Label headerNodeLabel = new("Nodes Properties");
-            headerNodeLabel.AddMarginTopClass();
-            headerNodeLabel.AddToClassList(headerClass);
+            headerNodeLabel.AddToClassList(MARGIN_TOP, headerClass, CENTERED);
             windowProperties.Add(headerNodeLabel);
+            windowProperties.Add(noSelectedNodesLabel);
         }
 
-        public void AddNodeFields(BehaviourTreeNode node, Label nodeLabel, List<PropertyField> fields)
+        public void AddNodeFields(BehaviourTreeNode node, Label nodeLabel, List<VisualElement> fields)
         {
             // string fieldClass = "node-property";
             if(selectedNodes.Contains(node))
@@ -112,15 +114,17 @@ namespace BehaviourTrees.Editor
             windowProperties.Add(nodeLabel);
             selectedNodes.Add(node);
 
-            foreach (PropertyField field in fields)
+            foreach (VisualElement field in fields)
             {
                 windowProperties.Add(field);
                 serializedGraph.Update();
                 field.Bind(serializedGraph);
             }
+
+            noSelectedNodesLabel.RemoveFromHierarchy();
         }
 
-        public void RemoveNodeFields(BehaviourTreeNode node, Label nodeLabel, List<PropertyField> fields)
+        public void RemoveNodeFields(BehaviourTreeNode node, Label nodeLabel, List<VisualElement> fields)
         {
             if(!selectedNodes.Contains(node))
                 return;
@@ -128,12 +132,15 @@ namespace BehaviourTrees.Editor
             nodeLabel.RemoveFromHierarchy();
             selectedNodes.Remove(node);
 
-            foreach (PropertyField field in fields)
+            foreach (VisualElement field in fields)
             {
                 field.RemoveFromHierarchy();
                 serializedGraph.Update();
                 field.Unbind();
             }
+
+            if(selectedNodes.Count == 0)
+                windowProperties.Add(noSelectedNodesLabel);
         }
 
         void DrawGraph()

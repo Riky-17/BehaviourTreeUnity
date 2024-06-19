@@ -15,42 +15,40 @@ MonoBehaviour:
   root:
     rid: 6800022736479453185
   nodes:
-  - rid: 6126018387191529472
-  - rid: 6126018451516686336
-  connections:
-  - parentPort:
-      Node:
-        rid: 6800022736479453185
-      NodeID: 6fa1d6c5-19f7-4f1f-bd54-20ea86722a52
-    childPort:
-      Node:
-        rid: 6126018387191529472
-      NodeID: aaab56b0-8ec3-4cc5-bb60-d07a6211a0ad
+  - rid: 6126018539435589632
+  connections: []
   references:
     version: 2
     RefIds:
-    - rid: 6126018387191529472
-      type: {class: DebugNode, ns: BehaviourTrees, asm: BehaviourTrees}
+    - rid: 6126018539435589632
+      type: {class: DataNode, ns: BehaviourTrees, asm: BehaviourTrees}
       data:
         position:
           serializedVersion: 2
-          x: 268
-          y: 275.19998
-          width: 150.4
-          height: 91.20001
-        id: aaab56b0-8ec3-4cc5-bb60-d07a6211a0ad
-        text: 
-    - rid: 6126018451516686336
-      type: {class: DebugNode, ns: BehaviourTrees, asm: BehaviourTrees}
-      data:
-        position:
-          serializedVersion: 2
-          x: 511.19998
-          y: 294.4
-          width: 149.60004
-          height: 91.19998
-        id: 8a17fd3f-88d7-4ec2-bc18-ec0b9ff1dfc2
-        text: 
+          x: 437.6
+          y: 191.2
+          width: 149.59998
+          height: 132.80002
+        id: 512ba1e3-19e1-4398-85a8-d1dfc867c4ce
+        entries:
+        - key: test
+          valueType: 0
+          value:
+            type: 0
+            intValue: 7
+            floatValue: 0
+            boolValue: 0
+            stringValue: 
+            vector3Value: {x: 0, y: 0, z: 0}
+        - key: test
+          valueType: 0
+          value:
+            type: 0
+            intValue: 7
+            floatValue: 0
+            boolValue: 0
+            stringValue: 
+            vector3Value: {x: 0, y: 0, z: 0}
     - rid: 6800022736479453185
       type: {class: Root, ns: BehaviourTrees, asm: BehaviourTrees}
       data:

@@ -12,12 +12,13 @@ namespace BehaviourTrees.Editor
 {
     public class BT_EditorNode : Node
     {
-        BT_Window window;
+        readonly BT_Window window;
         SerializedProperty serializedNode;
-        SerializedObject serializedGraph;
+        readonly SerializedObject serializedGraph;
 
-        Label nodeLabel;
-        List<PropertyField> fields;
+        readonly Label nodeLabel;
+        readonly List<VisualElement> fields;
+        readonly ListView dataNodeList;
 
         [SerializeField] public BehaviourTreeNode Node {get; private set;}
 
@@ -71,21 +72,130 @@ namespace BehaviourTrees.Editor
 
             //getting any properties of the node
             fields = new();
-            foreach (FieldInfo property in type.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
+            
+            if (Node is DataNode dataNode)
             {
-                if(property.GetCustomAttribute<ShowFieldAttribute>() is ShowFieldAttribute)
+                List<DataNodeEntryData> entries = dataNode.entries;
+
+                if(serializedNode == null)
+                    GetSerializedProperty();
+
+                const int itemHeight = 100;
+
+
+                dataNodeList = new()
                 {
-                    fields.Add(GetField(property.Name));
+                    headerTitle ="Entries",
+                    showFoldoutHeader = true,
+                    makeItem = MakeItem,
+                    bindItem = BindItem,
+                    fixedItemHeight = itemHeight,
+                    showAddRemoveFooter = true,
+                    bindingPath = serializedNode.FindPropertyRelative("entries").propertyPath
+                };
+
+                dataNodeList.Bind(serializedGraph);
+
+                VisualElement MakeItem()
+                {
+                    BindableElement element = new();
+                    
+                    TextField keyField = new() { bindingPath = nameof(DataNodeEntryData.key) };
+                    
+
+                    element.Add(keyField);
+
+                    EnumField valueType = new() { bindingPath = nameof(DataNodeEntryData.valueType) };
+                    valueType.Init(AnyValue.ValueTypes.Int);
+
+                    VisualElement valueContainer = new();
+
+                    //all value types
+                    IntegerField intField = new() { bindingPath = nameof(DataNodeEntryData.value) + "." + nameof(AnyValue.intValue) };
+                    FloatField floatField = new() { bindingPath = nameof(DataNodeEntryData.value) + "." + nameof(AnyValue.floatValue) };
+                    Toggle boolField = new() { bindingPath = nameof(DataNodeEntryData.value) + "." + nameof(AnyValue.boolValue) };
+                    TextField stringValueField = new() { bindingPath = nameof(DataNodeEntryData.value) + "." + nameof(AnyValue.stringValue) };
+                    Vector3Field vector3Field = new() { bindingPath = nameof(DataNodeEntryData.value) + "." + nameof(AnyValue.vector3Value) };
+
+                    void ValueTypeChanged(ChangeEvent<Enum> evt)
+                    {
+                        if(evt.newValue is not AnyValue.ValueTypes)
+                            return;
+                        
+                        valueContainer.Clear();
+                        switch ((AnyValue.ValueTypes)evt.newValue)
+                        {
+                            case AnyValue.ValueTypes.Int:
+                                valueContainer.Add(intField);
+                                break;
+                            case AnyValue.ValueTypes.Float:
+                                valueContainer.Add(floatField);
+                                break;
+                            case AnyValue.ValueTypes.Bool:
+                                valueContainer.Add(boolField);
+                                break;
+                            case AnyValue.ValueTypes.String:
+                                valueContainer.Add(stringValueField);
+                                break;
+                            case AnyValue.ValueTypes.Vector3:
+                                valueContainer.Add(vector3Field);
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+                    }
+
+                    valueType.RegisterValueChangedCallback(ValueTypeChanged);
+                    element.Add(valueType);
+
+                    valueContainer.Add(intField);
+                    element.Add(valueContainer);
+                    return element;
+                }
+
+                void BindItem(VisualElement element, int index)
+                {
+                    var field = element as IBindable ?? (IBindable)element.Query()
+                                                            .Where(x => x is IBindable)
+                                                            .First();
+
+                    var itemProp = (SerializedProperty)dataNodeList.itemsSource[index];
+                    field.bindingPath = itemProp.propertyPath;
+                    element.Bind(itemProp.serializedObject);
+                }
+
+                fields.Add(dataNodeList);
+            }
+            else if (Node is Leaf)
+            {
+                foreach (FieldInfo property in type.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
+                {
+                    if(property.GetCustomAttribute<ShowFieldAttribute>() is ShowFieldAttribute)
+                    {
+                        fields.Add(GetField(property.Name));
+                    }
                 }
             }
-
+    
             if(fields.Count > 0)
             {
-                nodeLabel = new(type.Name);
-                nodeLabel.AddMarginTopClass();
-                nodeLabel.AddToClassList("node-label");
+                nodeLabel = new(type.Name.AddSpaces());
+                nodeLabel.AddToClassList("margin-top", "node-label");
             }
         }
+
+        // private void test(IEnumerable<int> enumerable)
+        // {
+        //     foreach (var index in enumerable)
+        //     {
+                
+        //     }
+        // }
+
+        // private void OnValueTypeChanged(ChangeEvent<Enum> evt)
+        // {
+        //     throw new NotImplementedException();
+        // }
 
         void CreateInputPort()
         {
@@ -134,8 +244,7 @@ namespace BehaviourTrees.Editor
             
             SerializedProperty serializedProperty = serializedNode.FindPropertyRelative(name);
             PropertyField field = new(serializedProperty);
-            field.AddMarginTopClass();
-            field.AddToClassList("node-property");
+            field.AddToClassList("margin-top");
             return field;
         }
 

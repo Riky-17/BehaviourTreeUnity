@@ -24,14 +24,14 @@ public class LookForPlayer : Leaf
                 if(coll.gameObject.TryGetComponent(out Player player))
                 {
                     target = player.transform;
-                    SetData<Transform>(nameof(target), target);
+                    //SetData<Transform>(nameof(target), target);
                     return NodeStates.Success;
                 }
             }
         }
         
         target = null;
-        SetData<Transform>(nameof(target), target);
+        //SetData<Transform>(nameof(target), target);
         return NodeStates.Failure;
     }
 }

@@ -13,7 +13,6 @@
 {
     padding-right: 0px;
     -unity-font-style: bold;
-    align-self: center;
 }
 
 .margin-top
@@ -24,6 +23,11 @@
 .unity-property-field .unity-base-field .unity-base-field__label
 {
     min-width: 50px;
+}
+
+.centered
+{
+    align-self: center;
 }
 
 .graph-container

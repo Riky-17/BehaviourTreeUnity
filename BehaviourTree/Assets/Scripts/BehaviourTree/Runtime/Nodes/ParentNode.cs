@@ -8,31 +8,6 @@ namespace BehaviourTrees
     {
         protected List<BehaviourTreeNode> Children {get; private set;}
 
-        // public ParentNode(BehaviourTreeNode child)
-        // {
-        //     Children = new();
-        //     AttachChild(child);
-        // }
-
-        // public ParentNode(params BehaviourTreeNode[] children)
-        // {
-        //     Children = new();
-        //     foreach (BehaviourTreeNode child in children)
-        //         AttachChild(child);
-        // }
-        
-        // void AttachChild(BehaviourTreeNode child)
-        // {
-        //     child.parent = this;
-        //     Children.Add(child);
-        // }
-
-        public override void ChildAwake()
-        {
-            foreach (BehaviourTreeNode child in Children)
-                child.ChildAwake();
-        }
-
         public override void ChildStart()
         {
             foreach (BehaviourTreeNode child in Children)
