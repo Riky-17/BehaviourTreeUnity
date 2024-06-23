@@ -31,6 +31,7 @@ namespace BehaviourTrees
     {
         public string key;
         public AnyValue.ValueTypes valueType;
+        //public bool test;
         public AnyValue value;
 
         static Dictionary<AnyValue.ValueTypes, Action<DataNode, string, AnyValue>> dispatchTable = new()

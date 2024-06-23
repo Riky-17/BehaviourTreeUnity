@@ -105,9 +105,8 @@ namespace BehaviourTrees.Editor
             windowProperties.Add(noSelectedNodesLabel);
         }
 
-        public void AddNodeFields(BehaviourTreeNode node, Label nodeLabel, List<VisualElement> fields)
+        public void AddNodeFields(BehaviourTreeNode node, Label nodeLabel, List<PropertyField> fields)
         {
-            // string fieldClass = "node-property";
             if(selectedNodes.Contains(node))
                 return;
             
@@ -124,7 +123,7 @@ namespace BehaviourTrees.Editor
             noSelectedNodesLabel.RemoveFromHierarchy();
         }
 
-        public void RemoveNodeFields(BehaviourTreeNode node, Label nodeLabel, List<VisualElement> fields)
+        public void RemoveNodeFields(BehaviourTreeNode node, Label nodeLabel, List<PropertyField> fields)
         {
             if(!selectedNodes.Contains(node))
                 return;
@@ -138,6 +137,35 @@ namespace BehaviourTrees.Editor
                 serializedGraph.Update();
                 field.Unbind();
             }
+
+            if(selectedNodes.Count == 0)
+                windowProperties.Add(noSelectedNodesLabel);
+        }
+
+        public void AddDataNodeList(BehaviourTreeNode node, Label nodeLabel, VisualElement element)
+        {
+            if(selectedNodes.Contains(node))
+                return;
+
+            windowProperties.Add(nodeLabel);
+            selectedNodes.Add(node);
+
+            windowProperties.Add(element);
+            //serializedGraph.Update();
+
+            noSelectedNodesLabel.RemoveFromHierarchy();
+        }
+
+        public void RemoveDataNodeList(BehaviourTreeNode node, Label nodeLabel, VisualElement element)
+        {
+            if(!selectedNodes.Contains(node))
+                return;
+
+            nodeLabel.RemoveFromHierarchy();
+            selectedNodes.Remove(node);
+
+            element.RemoveFromHierarchy();
+            //serializedGraph.Update();
 
             if(selectedNodes.Count == 0)
                 windowProperties.Add(noSelectedNodesLabel);
