@@ -18,7 +18,6 @@ namespace BehaviourTrees
         }
 
         [ShowField, SerializeField] string text;
-        [ShowField, SerializeField] List<string> texts;
         [ShowField, SerializeField] Methods methods;
         [ShowField, SerializeField] NodeStates state;
 

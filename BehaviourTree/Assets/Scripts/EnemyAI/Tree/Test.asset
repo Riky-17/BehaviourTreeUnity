@@ -16,7 +16,16 @@ MonoBehaviour:
     rid: 6800022736479453185
   nodes:
   - rid: 6126018539435589632
-  connections: []
+  - rid: 6126018696528003074
+  connections:
+  - parentPort:
+      Node:
+        rid: 6800022736479453185
+      NodeID: 6fa1d6c5-19f7-4f1f-bd54-20ea86722a52
+    childPort:
+      Node:
+        rid: 6126018539435589632
+      NodeID: 512ba1e3-19e1-4398-85a8-d1dfc867c4ce
   references:
     version: 2
     RefIds:
@@ -25,21 +34,36 @@ MonoBehaviour:
       data:
         position:
           serializedVersion: 2
-          x: 437.6
-          y: 191.2
-          width: 149.59998
-          height: 132.80002
+          x: 202.4
+          y: 252.00002
+          width: 149.60004
+          height: 132.79999
         id: 512ba1e3-19e1-4398-85a8-d1dfc867c4ce
         entries:
-        - key: hello
-          valueType: 2
+        - key: test
+          valueType: 0
           value:
-            type: 2
-            intValue: 7
+            type: 0
+            intValue: 9
             floatValue: 0
             boolValue: 1
             stringValue: 
             vector3Value: {x: 0, y: 0, z: 0}
+            gameObjectValue: {fileID: 0}
+            transformValue: {fileID: 0}
+    - rid: 6126018696528003074
+      type: {class: DebugNode, ns: BehaviourTrees, asm: BehaviourTrees}
+      data:
+        position:
+          serializedVersion: 2
+          x: 485.60004
+          y: 279.6
+          width: 0
+          height: 0
+        id: e1b3cfa2-5dfb-43bb-87ff-d9f7d36743ac
+        text: 
+        methods: 0
+        state: 0
     - rid: 6800022736479453185
       type: {class: Root, ns: BehaviourTrees, asm: BehaviourTrees}
       data:

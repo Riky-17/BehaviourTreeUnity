@@ -8,15 +8,9 @@ namespace BehaviourTrees
     [NodeInfo("Parent Node/Data Node")]
     public class DataNode : ParentNode
     {
-        public List<DataNodeEntryData> entries;
+        public List<DataNodeEntry> entries  = new();
 
-        private readonly Dictionary<string, object> data; 
-
-        public DataNode()
-        {
-            entries = new();
-            data = new();
-        }
+        private readonly Dictionary<string, object> data = new(); 
 
         public bool TryGetValue<T>(string key, out T value)
         {
@@ -32,7 +26,7 @@ namespace BehaviourTrees
 
         public void SetValuesOnDataNode()
         {
-            foreach (DataNodeEntryData entry in entries)
+            foreach (DataNodeEntry entry in entries)
             {
                 entry.SetValueOnDataNode(this);
             }
