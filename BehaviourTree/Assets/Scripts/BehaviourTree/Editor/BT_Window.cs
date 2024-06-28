@@ -19,7 +19,7 @@ namespace BehaviourTrees.Editor
 
         VisualElement windowProperties;
         Label noSelectedNodesLabel;
-        List<BehaviourTreeNode> selectedNodes;
+        public List<BT_EditorNode> SelectedNodes { get; private set; }
 
         const string MARGIN_TOP = "margin-top";
         const string CENTERED = "centered";
@@ -47,7 +47,7 @@ namespace BehaviourTrees.Editor
             StyleSheet sheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/BehaviourTree/Editor/Style/BT_GraphStyle.uss");
             noSelectedNodesLabel = new("No nodes have been selected");
             noSelectedNodesLabel.AddToClassList(MARGIN_TOP, CENTERED);
-            selectedNodes = new();
+            SelectedNodes = new();
             rootVisualElement.styleSheets.Add(sheet);
 
             Undo.undoRedoPerformed += OnUndoRedoPerformed;
@@ -105,13 +105,13 @@ namespace BehaviourTrees.Editor
             windowProperties.Add(noSelectedNodesLabel);
         }
 
-        public void AddNodeFields(BehaviourTreeNode node, Label nodeLabel, List<PropertyField> fields)
+        public void AddNodeFields(BT_EditorNode node, Label nodeLabel, List<PropertyField> fields)
         {
-            if(selectedNodes.Contains(node))
+            if(SelectedNodes.Contains(node))
                 return;
             
             windowProperties.Add(nodeLabel);
-            selectedNodes.Add(node);
+            SelectedNodes.Add(node);
 
             foreach (VisualElement field in fields)
             {
@@ -123,13 +123,13 @@ namespace BehaviourTrees.Editor
             noSelectedNodesLabel.RemoveFromHierarchy();
         }
 
-        public void RemoveNodeFields(BehaviourTreeNode node, Label nodeLabel, List<PropertyField> fields)
+        public void RemoveNodeFields(BT_EditorNode node, Label nodeLabel, List<PropertyField> fields)
         {
-            if(!selectedNodes.Contains(node))
+            if(!SelectedNodes.Contains(node))
                 return;
             
             nodeLabel.RemoveFromHierarchy();
-            selectedNodes.Remove(node);
+            SelectedNodes.Remove(node);
 
             foreach (VisualElement field in fields)
             {
@@ -138,36 +138,36 @@ namespace BehaviourTrees.Editor
                 field.Unbind();
             }
 
-            if(selectedNodes.Count == 0)
+            if(SelectedNodes.Count == 0)
                 windowProperties.Add(noSelectedNodesLabel);
         }
 
-        public void AddDataNodeList(BehaviourTreeNode node, Label nodeLabel, VisualElement element)
+        public void AddDataNodeList(BT_EditorNode node, Label nodeLabel, VisualElement element)
         {
-            if(selectedNodes.Contains(node))
+            if(SelectedNodes.Contains(node))
                 return;
 
             windowProperties.Add(nodeLabel);
-            selectedNodes.Add(node);
+            SelectedNodes.Add(node);
 
             windowProperties.Add(element);
-            //serializedGraph.Update();
+            serializedGraph.Update();
 
             noSelectedNodesLabel.RemoveFromHierarchy();
         }
 
-        public void RemoveDataNodeList(BehaviourTreeNode node, Label nodeLabel, VisualElement element)
+        public void RemoveDataNodeList(BT_EditorNode node, Label nodeLabel, VisualElement element)
         {
-            if(!selectedNodes.Contains(node))
+            if(!SelectedNodes.Contains(node))
                 return;
 
             nodeLabel.RemoveFromHierarchy();
-            selectedNodes.Remove(node);
+            SelectedNodes.Remove(node);
 
             element.RemoveFromHierarchy();
-            //serializedGraph.Update();
+            serializedGraph.Update();
 
-            if(selectedNodes.Count == 0)
+            if(SelectedNodes.Count == 0)
                 windowProperties.Add(noSelectedNodesLabel);
         }
 

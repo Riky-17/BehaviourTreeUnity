@@ -41,10 +41,10 @@ MonoBehaviour:
         id: 512ba1e3-19e1-4398-85a8-d1dfc867c4ce
         entries:
         - key: test
-          valueType: 0
+          valueType: 2
           value:
-            type: 0
-            intValue: 9
+            type: 2
+            intValue: 0
             floatValue: 0
             boolValue: 1
             stringValue: 
@@ -56,10 +56,10 @@ MonoBehaviour:
       data:
         position:
           serializedVersion: 2
-          x: 485.60004
-          y: 279.6
-          width: 0
-          height: 0
+          x: 466.40002
+          y: 256.8
+          width: 149.59998
+          height: 91.20001
         id: e1b3cfa2-5dfb-43bb-87ff-d9f7d36743ac
         text: 
         methods: 0

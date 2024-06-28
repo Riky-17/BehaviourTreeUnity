@@ -20,6 +20,7 @@ namespace BehaviourTrees.Editor
         public List<BT_EditorNode> GraphNodes {get; private set;}
         public Dictionary<string, BT_EditorNode> GraphNodesDictionary {get; private set;}
         public Dictionary<Edge, BehaviourTreeConnection> ConnectionsDictionary {get; private set;}
+        List<BT_EditorNode> selectedNodes;
 
         public BT_GraphView(SerializedObject serializedGraph, BT_Window window)
         {
@@ -157,6 +158,19 @@ namespace BehaviourTrees.Editor
             GraphNodes.Add(editorNode);
             GraphNodesDictionary.Add(node.ID, editorNode);
             Bind();
+
+            if(selectedNodes == null || selectedNodes.Count == 0)
+                return;
+            
+            foreach (BT_EditorNode selectedNode in selectedNodes)
+            {
+                if(selectedNode.Node == node)
+                {
+                    AddToSelection(editorNode);
+                    selectedNodes.Remove(selectedNode);
+                    return;
+                }
+            }
         }
 
         void CreateEdge(Edge edge)
@@ -203,9 +217,12 @@ namespace BehaviourTrees.Editor
 
         public void RefreshGraph()
         {
+            selectedNodes = new(Window.SelectedNodes);
+
             foreach (BT_EditorNode editorNode in GraphNodes)
             {
                 editorNode.SetPosition(editorNode.Node.Position);
+                editorNode.OnUnselected();
                 RemoveElement(editorNode);
             }
 

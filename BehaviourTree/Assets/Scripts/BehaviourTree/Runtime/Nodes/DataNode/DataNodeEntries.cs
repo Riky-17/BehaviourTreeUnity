@@ -14,7 +14,13 @@ namespace BehaviourTrees
 
         static Dictionary<AnyValue.ValueTypes, Action<DataNode, string, AnyValue>> dispatchTable = new()
         {
-            { AnyValue.ValueTypes.Bool, (dataNode, keyName, anyValue) => dataNode.SetValue<bool>(keyName, anyValue)}
+            { AnyValue.ValueTypes.Int, (dataNode, keyName, anyValue) => dataNode.SetValue<int>(keyName, anyValue)},
+            { AnyValue.ValueTypes.Float, (dataNode, keyName, anyValue) => dataNode.SetValue<float>(keyName, anyValue)},
+            { AnyValue.ValueTypes.Bool, (dataNode, keyName, anyValue) => dataNode.SetValue<bool>(keyName, anyValue)},
+            { AnyValue.ValueTypes.String, (dataNode, keyName, anyValue) => dataNode.SetValue<string>(keyName, anyValue)},
+            { AnyValue.ValueTypes.Vector3, (dataNode, keyName, anyValue) => dataNode.SetValue<Vector3>(keyName, anyValue)},
+            { AnyValue.ValueTypes.GameObject, (dataNode, keyName, anyValue) => dataNode.SetValue<GameObject>(keyName, anyValue)},
+            { AnyValue.ValueTypes.Transform, (dataNode, keyName, anyValue) => dataNode.SetValue<Transform>(keyName, anyValue)}
         };
 
         public void SetValueOnDataNode(DataNode dataNode) => dispatchTable[value.type](dataNode, key, value);

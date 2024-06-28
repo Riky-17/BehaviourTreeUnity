@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BehaviourTrees
 {
-    [NodeInfo("", false)]
+    [NodeInfo("Parent Node/Root", false)]
     public class Root : ParentNode
     {
         public Root() {}

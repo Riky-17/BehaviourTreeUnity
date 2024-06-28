@@ -242,12 +242,12 @@ namespace BehaviourTrees.Editor
         {
             if (fields != null && fields.Count != 0)
             {
-                window.AddNodeFields(Node, nodeLabel, fields);
+                window.AddNodeFields(this, nodeLabel, fields);
                 base.OnSelected();
             }
             else if(Node is DataNode)
             {
-                window.AddDataNodeList(Node, nodeLabel, dataNodeListView);
+                window.AddDataNodeList(this, nodeLabel, dataNodeListView);
                 base.OnSelected();
             }
         }
@@ -256,12 +256,12 @@ namespace BehaviourTrees.Editor
         {
             if (fields != null && fields.Count != 0)
             {
-                window.RemoveNodeFields(Node, nodeLabel, fields);
+                window.RemoveNodeFields(this, nodeLabel, fields);
                 base.OnUnselected();
             }
             else if(Node is DataNode)
             {
-                window.RemoveDataNodeList(Node, nodeLabel, dataNodeListView);
+                window.RemoveDataNodeList(this, nodeLabel, dataNodeListView);
                 base.OnUnselected();
             }
         }
