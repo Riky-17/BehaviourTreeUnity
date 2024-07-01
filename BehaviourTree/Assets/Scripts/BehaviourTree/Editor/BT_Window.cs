@@ -142,29 +142,15 @@ namespace BehaviourTrees.Editor
                 windowProperties.Add(noSelectedNodesLabel);
         }
 
-        public void AddDataNodeList(BT_EditorNode node, Label nodeLabel, VisualElement element)
+        public void AddDataNodeList(ListView listView)
         {
-            if(SelectedNodes.Contains(node))
-                return;
-
-            windowProperties.Add(nodeLabel);
-            SelectedNodes.Add(node);
-
-            windowProperties.Add(element);
+            windowProperties.Add(listView);
             serializedGraph.Update();
-
-            noSelectedNodesLabel.RemoveFromHierarchy();
         }
 
-        public void RemoveDataNodeList(BT_EditorNode node, Label nodeLabel, VisualElement element)
+        public void RemoveDataNodeList(ListView listView)
         {
-            if(!SelectedNodes.Contains(node))
-                return;
-
-            nodeLabel.RemoveFromHierarchy();
-            SelectedNodes.Remove(node);
-
-            element.RemoveFromHierarchy();
+            listView.RemoveFromHierarchy();
             serializedGraph.Update();
 
             if(SelectedNodes.Count == 0)

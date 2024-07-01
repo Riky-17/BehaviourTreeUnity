@@ -52,5 +52,11 @@ namespace BehaviourTrees
             if((methods & Methods.OnDisable) != 0)
                 Debug.Log("On Disable: " + text);
         }
+
+        public override List<string> PopulateChildren(BehaviourTreeGraph graph)
+        {
+            Debug.Log("Debug Node");
+            return base.PopulateChildren(graph);
+        }
     }
 }

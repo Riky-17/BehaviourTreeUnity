@@ -5,11 +5,12 @@ using UnityEngine;
 
 namespace BehaviourTrees
 {
+    [AttributeUsage(AttributeTargets.Class)]
     public class NodeInfoAttribute : Attribute
     {
-        public string Path {get; private set;}
-        public bool HasParent {get; private set;}
-        public bool HasChild {get; private set;}
+        public string Path { get; private set; }
+        public bool HasParent { get; private set; }
+        public bool HasChild { get; private set; }
         public bool HasMultipleChildren = false;
 
         public NodeInfoAttribute(string path, bool hasParent = true, bool hasChild = true)

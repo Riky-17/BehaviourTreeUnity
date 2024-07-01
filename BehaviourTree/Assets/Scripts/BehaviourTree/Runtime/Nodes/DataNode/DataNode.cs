@@ -8,6 +8,7 @@ namespace BehaviourTrees
     [NodeInfo("Parent Node/Data Node")]
     public class DataNode : ParentNode
     {
+        [ShowField, SerializeField] string customName;
         public List<DataNodeEntry> entries  = new();
 
         private readonly Dictionary<string, object> data = new(); 
@@ -35,6 +36,12 @@ namespace BehaviourTrees
         public void SetValue<T>(string key, T value) => data[key] = new DataNodeValue<T>(value);
 
         public bool HasKey(string key) => data.ContainsKey(key);
+
+        public override List<string> PopulateChildren(BehaviourTreeGraph graph)
+        {
+            Debug.Log("DataNode");
+            return base.PopulateChildren(graph);
+        }
     }
 
     public struct DataNodeValue<T>

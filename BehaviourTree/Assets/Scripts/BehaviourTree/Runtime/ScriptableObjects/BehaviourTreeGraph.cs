@@ -13,7 +13,7 @@ namespace BehaviourTrees
         [SerializeReference] List<BehaviourTreeNode> nodes;
         public List<BehaviourTreeNode> Nodes => nodes;
 
-        [SerializeField] List<BehaviourTreeConnection> connections;
+        [SerializeReference] List<BehaviourTreeConnection> connections;
         public List<BehaviourTreeConnection> Connections => connections;
 
         public BehaviourTreeGraph()
@@ -67,17 +67,12 @@ namespace BehaviourTrees
 
         public List<BehaviourTreeNode> GetNodes(string parentNodeID)
         {
-            List<BehaviourTreeNode> nodes = new();
-
             foreach (BehaviourTreeConnection connection in connections)
             {
-                if(connection.parentPort.NodeID == parentNodeID)
-                {
-                    string childNodeID = connection.childPort.NodeID;
-                    nodes.Add(SearchNode(childNodeID));
-                }
+                if(connection.parentNode.ID == parentNodeID)
+                    return connection.childrenNodes;
             }
-            return nodes;
+            return null;
         }
 
         List<BehaviourTreeNode> GetConnectedNodes(BehaviourTreeNode node)
@@ -86,10 +81,10 @@ namespace BehaviourTrees
 
             foreach (BehaviourTreeConnection connection in connections)
             {
-                if(connection.parentPort.Node == node)
-                    connectedNodes.Add(connection.childPort.Node);
-                if(connection.childPort.Node == node)
-                    connectedNodes.Add(connection.parentPort.Node);
+                if(connection.parentNode == node)
+                    connectedNodes.AddRange(connection.childrenNodes);
+                if(connection.ContainsChild(node))
+                    connectedNodes.Add(connection.parentNode);
             }
             return connectedNodes;
         }

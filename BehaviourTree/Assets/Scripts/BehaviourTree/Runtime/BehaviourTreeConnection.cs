@@ -6,28 +6,26 @@ using UnityEngine;
 namespace BehaviourTrees
 {
     [System.Serializable]
-    public struct BehaviourTreeConnection
+    public class BehaviourTreeConnection
     {
-        public BehaviourTreeConnectionPort parentPort;
-        public BehaviourTreeConnectionPort childPort;
+        [SerializeReference] public BehaviourTreeNode parentNode;
+        [SerializeReference] public List<BehaviourTreeNode> childrenNodes;
+        public int ChildrenCount => childrenNodes.Count;
 
-        public BehaviourTreeConnection(BehaviourTreeConnectionPort parentPort, BehaviourTreeConnectionPort childPort)
+        public BehaviourTreeConnection(BehaviourTreeNode parentNode, List<BehaviourTreeNode> childrenNodes)
         {
-            this.parentPort = parentPort;
-            this.childPort = childPort;
+            this.parentNode = parentNode;
+            this.childrenNodes = childrenNodes;
         }
-    }
 
-    [System.Serializable]
-    public struct BehaviourTreeConnectionPort
-    {
-        [SerializeReference] public BehaviourTreeNode Node;
-        public string NodeID;
-
-        public BehaviourTreeConnectionPort(BehaviourTreeNode node)
+        public BehaviourTreeConnection(BehaviourTreeNode parentNode, BehaviourTreeNode child)
         {
-            Node = node;
-            NodeID = node.ID;
+            this.parentNode = parentNode;
+            childrenNodes = new() { child };
         }
+
+        public bool ContainsChild(BehaviourTreeNode child) => childrenNodes.Contains(child);
+        public void AddChild(BehaviourTreeNode child) => childrenNodes.Add(child);
+        public void RemoveChild(BehaviourTreeNode child) => childrenNodes.Remove(child);
     }
 }

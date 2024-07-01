@@ -72,32 +72,25 @@ namespace BehaviourTrees.Editor
                 this.Q(className: "title-output").RemoveFromHierarchy();
             }
             
+            //creating the DataNode ListView
             if (Node is DataNode)
-            {
-                //creating the DataNode ListView
                 SetDataNodeListView();
-                
+            
+            //getting any properties of the node
+            fields = new();
+
+            foreach (FieldInfo property in type.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
+            {
+                if(property.GetCustomAttribute<ShowFieldAttribute>() is ShowFieldAttribute)
+                {
+                    fields.Add(GetField(property.Name));
+                }
+            }
+
+            if(fields.Count > 0)
+            {
                 nodeLabel = new(type.Name.AddSpaces());
                 nodeLabel.AddToClassList("margin-top", "node-label");
-            }
-            else if (Node is Leaf)
-            {
-                //getting any properties of the node
-                fields = new();
-
-                foreach (FieldInfo property in type.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
-                {
-                    if(property.GetCustomAttribute<ShowFieldAttribute>() is ShowFieldAttribute)
-                    {
-                        fields.Add(GetField(property.Name));
-                    }
-                }
-
-                if(fields.Count > 0)
-                {
-                    nodeLabel = new(type.Name.AddSpaces());
-                    nodeLabel.AddToClassList("margin-top", "node-label");
-                }
             }
         }
 
@@ -241,29 +234,23 @@ namespace BehaviourTrees.Editor
         public override void OnSelected()
         {
             if (fields != null && fields.Count != 0)
-            {
                 window.AddNodeFields(this, nodeLabel, fields);
-                base.OnSelected();
-            }
-            else if(Node is DataNode)
-            {
-                window.AddDataNodeList(this, nodeLabel, dataNodeListView);
-                base.OnSelected();
-            }
+
+            if(Node is DataNode)
+                window.AddDataNodeList(dataNodeListView);
+
+            base.OnSelected();
         }
 
         public override void OnUnselected()
         {
             if (fields != null && fields.Count != 0)
-            {
                 window.RemoveNodeFields(this, nodeLabel, fields);
-                base.OnUnselected();
-            }
-            else if(Node is DataNode)
-            {
-                window.RemoveDataNodeList(this, nodeLabel, dataNodeListView);
-                base.OnUnselected();
-            }
+
+            if(Node is DataNode)
+                window.RemoveDataNodeList(dataNodeListView);
+
+            base.OnUnselected();
         }
 
         PropertyField GetField(string name)

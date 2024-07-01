@@ -17,6 +17,7 @@ namespace BehaviourTrees.Editor
         BT_SearchWindow windowSearch;
 
         public BT_Window Window {get; private set;}
+
         public List<BT_EditorNode> GraphNodes {get; private set;}
         public Dictionary<string, BT_EditorNode> GraphNodesDictionary {get; private set;}
         public Dictionary<Edge, BehaviourTreeConnection> ConnectionsDictionary {get; private set;}
@@ -130,7 +131,14 @@ namespace BehaviourTrees.Editor
         {
             if(ConnectionsDictionary.TryGetValue(edge, out BehaviourTreeConnection connection))
             {
-                behaviourTreeGraph.Connections.Remove(connection);
+                if(connection.ChildrenCount <= 1)
+                    behaviourTreeGraph.Connections.Remove(connection);
+                else
+                {
+                    BT_EditorNode childNode = (BT_EditorNode)edge.input.node;
+                    connection.RemoveChild(childNode.Node);
+                }
+
                 ConnectionsDictionary.Remove(edge);
                 serializedGraph.Update();
             }
@@ -178,9 +186,20 @@ namespace BehaviourTrees.Editor
             BT_EditorNode parentNode = (BT_EditorNode)edge.output.node;
             BT_EditorNode childNode = (BT_EditorNode)edge.input.node;
 
-            BehaviourTreeConnection connection = new(new(parentNode.Node), new(childNode.Node));
-            behaviourTreeGraph.Connections.Add(connection);
-            ConnectionsDictionary.Add(edge, connection);
+            foreach (BehaviourTreeConnection connection in behaviourTreeGraph.Connections)
+            {
+                if(connection.parentNode == parentNode.Node)
+                {
+                    connection.AddChild(childNode.Node);
+                    ConnectionsDictionary.Add(edge, connection);
+                    serializedGraph.Update();
+                    return;
+                }
+            }
+
+            BehaviourTreeConnection nodesConnection = new(parentNode.Node, childNode.Node);
+            behaviourTreeGraph.Connections.Add(nodesConnection);
+            ConnectionsDictionary.Add(edge, nodesConnection);
             serializedGraph.Update();
         }
 
@@ -192,15 +211,24 @@ namespace BehaviourTrees.Editor
 
         void DrawConnection(BehaviourTreeConnection connection)
         {
-            BT_EditorNode parentNode = GetNode(connection.parentPort.NodeID);
-            BT_EditorNode childNode = GetNode(connection.childPort.NodeID);
-            if(childNode == null || parentNode == null)
+            BT_EditorNode parentNode = GetNode(connection.parentNode.ID);
+            List<BehaviourTreeNode> childrenNodes = connection.childrenNodes;
+
+            if(childrenNodes == null || childrenNodes.Count == 0 || parentNode == null)
+            {
+                behaviourTreeGraph.Connections.Remove(connection);
                 return;
-            Port inputPort = childNode.InputPort;
-            Port outputPort = parentNode.OutputPort;
-            Edge edge = inputPort.ConnectTo(outputPort);
-            ConnectionsDictionary.Add(edge, connection);
-            AddElement(edge);
+            }
+
+            foreach (BehaviourTreeNode child in childrenNodes)
+            {
+                BT_EditorNode childNode = GetNode(child.ID);
+                Port inputPort = childNode.InputPort;
+                Port outputPort = parentNode.OutputPort;
+                Edge edge = inputPort.ConnectTo(outputPort);
+                ConnectionsDictionary.Add(edge, connection);
+                AddElement(edge);
+            }
         }
 
         private BT_EditorNode GetNode(string nodeID)
